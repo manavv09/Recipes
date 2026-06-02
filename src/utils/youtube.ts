@@ -52,6 +52,22 @@ export function getYouTubeThumbnailUrl(videoUrl?: string): string | null {
   return null;
 }
 
+export function toYouTubeWatchUrl(url?: string): string {
+  if (!url?.trim()) return '';
+
+  const trimmed = url.trim();
+  const regex = /(?:youtube\.com\/(?:watch\?v=|shorts\/|v\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i;
+  const match = trimmed.match(regex);
+
+  if (match && match[1]) {
+    return `https://www.youtube.com/watch?v=${match[1]}`;
+  }
+
+  return trimmed;
+}
+
 export function hasRecipeVideo(videoUrl?: string): boolean {
-  return Boolean(videoUrl?.trim());
+  if (!videoUrl?.trim()) return false;
+  const regex = /(?:youtube\.com\/(?:watch\?v=|shorts\/|v\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i;
+  return regex.test(videoUrl.trim());
 }
