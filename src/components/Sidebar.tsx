@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   LayoutDashboard,
   BookOpen,
@@ -6,9 +5,16 @@ import {
   Dumbbell,
   ShoppingBag,
   UtensilsCrossed,
-  X,
   Sparkles
 } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import type { AccentTheme } from '@/lib/theme';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { DietToggle } from '@/components/DietToggle';
+import type { DietPreference } from '@/utils/diet';
 
 interface SidebarProps {
   activeTab: 'dashboard' | 'recipes' | 'planner' | 'gym' | 'shopping';
@@ -16,13 +22,30 @@ interface SidebarProps {
   scheduledMealsCount: number;
   shoppingListCount: number;
   shoppingCheckedCount: number;
-  currentTheme: 'teal' | 'amber' | 'rose' | 'indigo';
-  setTheme: (theme: 'teal' | 'amber' | 'rose' | 'indigo') => void;
+  currentTheme: AccentTheme;
+  setTheme: (theme: AccentTheme) => void;
+  dietPreference: DietPreference;
+  setDietPreference: (diet: DietPreference) => void;
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({
+const themes: { id: AccentTheme; label: string; color: string }[] = [
+  { id: 'teal', label: 'Teal', color: 'bg-teal-500' },
+  { id: 'amber', label: 'Amber', color: 'bg-amber-500' },
+  { id: 'rose', label: 'Rose', color: 'bg-rose-500' },
+  { id: 'indigo', label: 'Indigo', color: 'bg-indigo-500' }
+];
+
+const menuItems = [
+  { id: 'dashboard' as const, label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'recipes' as const, label: 'Recipes', icon: BookOpen },
+  { id: 'planner' as const, label: 'Weekly Planner', icon: Calendar },
+  { id: 'gym' as const, label: 'Gym Diet', icon: Dumbbell },
+  { id: 'shopping' as const, label: 'Shopping', icon: ShoppingBag }
+];
+
+function NavContent({
   activeTab,
   setActiveTab,
   scheduledMealsCount,
@@ -30,125 +53,138 @@ export const Sidebar: React.FC<SidebarProps> = ({
   shoppingCheckedCount,
   currentTheme,
   setTheme,
+  dietPreference,
+  setDietPreference,
+  onNavigate
+}: Omit<SidebarProps, 'isOpen' | 'setIsOpen'> & { onNavigate?: () => void }) {
+  const getBadge = (id: (typeof menuItems)[number]['id']) => {
+    if (id === 'planner' && scheduledMealsCount > 0) return String(scheduledMealsCount);
+    if (id === 'shopping' && shoppingListCount > 0) {
+      return `${shoppingCheckedCount}/${shoppingListCount}`;
+    }
+    return null;
+  };
+
+  return (
+    <div className="flex h-full flex-col">
+      <div className="flex items-center gap-3 px-2 py-1">
+        <div className="flex size-10 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+          <UtensilsCrossed className="size-5" />
+        </div>
+        <div>
+          <p className="text-sm font-semibold tracking-tight">RecipeForge</p>
+          <p className="text-muted-foreground text-xs">Meal & gym planner</p>
+        </div>
+      </div>
+
+      <Separator className="my-4" />
+
+      <nav className="flex flex-1 flex-col gap-1">
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeTab === item.id;
+          const badge = getBadge(item.id);
+
+          return (
+            <Button
+              key={item.id}
+              variant={isActive ? 'secondary' : 'ghost'}
+              className={cn(
+                'h-10 w-full justify-start gap-3 px-3',
+                isActive && 'bg-sidebar-accent text-sidebar-accent-foreground font-medium'
+              )}
+              onClick={() => {
+                setActiveTab(item.id);
+                onNavigate?.();
+              }}
+            >
+              <Icon className={cn('size-4', isActive ? 'text-primary' : 'text-muted-foreground')} />
+              <span className="flex-1 text-left">{item.label}</span>
+              {badge && (
+                <Badge variant={isActive ? 'default' : 'secondary'} className="text-[10px]">
+                  {badge}
+                </Badge>
+              )}
+            </Button>
+          );
+        })}
+      </nav>
+
+      <div className="mt-auto space-y-3 pt-4">
+        <Separator />
+        <DietToggle
+          value={dietPreference}
+          onChange={setDietPreference}
+          className="px-1"
+        />
+        <div className="px-1">
+          <div className="text-muted-foreground mb-2 flex items-center gap-1.5 text-xs font-medium">
+            <Sparkles className="text-primary size-3.5" />
+            Accent color
+          </div>
+          <div className="grid grid-cols-4 gap-2">
+            {themes.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                title={t.label}
+                onClick={() => setTheme(t.id)}
+                className={cn(
+                  'flex h-9 items-center justify-center rounded-md border transition-all',
+                  currentTheme === t.id
+                    ? 'border-primary bg-accent ring-2 ring-primary/30'
+                    : 'border-border hover:border-muted-foreground/40'
+                )}
+              >
+                <span className={cn('size-3.5 rounded-full', t.color)} />
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function Sidebar({
+  activeTab,
+  setActiveTab,
+  scheduledMealsCount,
+  shoppingListCount,
+  shoppingCheckedCount,
+  currentTheme,
+  setTheme,
+  dietPreference,
+  setDietPreference,
   isOpen,
   setIsOpen
-}) => {
-  const themes = [
-    { id: 'teal', label: 'Cyan', colorClass: 'bg-teal-500' },
-    { id: 'amber', label: 'Gold', colorClass: 'bg-amber-500' },
-    { id: 'rose', label: 'Rose', colorClass: 'bg-rose-500' },
-    { id: 'indigo', label: 'Neon', colorClass: 'bg-indigo-500' }
-  ] as const;
-
-  interface MenuItem {
-    id: 'dashboard' | 'recipes' | 'planner' | 'gym' | 'shopping';
-    label: string;
-    icon: React.ComponentType<any> | any;
-    badge?: number | string;
-  }
-
-  const menuItems: MenuItem[] = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'recipes', label: 'Recipes Explorer', icon: BookOpen },
-    { id: 'planner', label: 'Weekly Planner', icon: Calendar, badge: scheduledMealsCount },
-    { id: 'gym', label: 'Gym Diet Center', icon: Dumbbell },
-    { id: 'shopping', label: 'Grocery Shopping', icon: ShoppingBag, badge: shoppingListCount > 0 ? `${shoppingCheckedCount}/${shoppingListCount}` : undefined }
-  ];
-
-  const handleNavClick = (tabId: 'dashboard' | 'recipes' | 'planner' | 'gym' | 'shopping') => {
-    setActiveTab(tabId);
-    setIsOpen(false); // Close mobile sidebar
+}: SidebarProps) {
+  const navProps = {
+    activeTab,
+    setActiveTab,
+    scheduledMealsCount,
+    shoppingListCount,
+    shoppingCheckedCount,
+    currentTheme,
+    setTheme,
+    dietPreference,
+    setDietPreference
   };
 
   return (
     <>
-      {/* Mobile Sidebar Overlay */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-30 lg:hidden"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-
-      <aside className={`sidebar-panel fixed lg:sticky ${isOpen ? 'mobile-open' : ''}`}>
-        {/* Sidebar Header */}
-        <div className="p-6 flex items-center justify-between border-b border-slate-900">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-teal-500/20">
-              <UtensilsCrossed size={20} className="text-slate-950" strokeWidth={2.5} />
-            </div>
-            <div>
-              <h1 className="text-lg font-black tracking-tight text-white leading-tight">
-                Recipe<span className="text-theme-primary font-semibold transition-colors duration-300">Forge</span>
-              </h1>
-              <span className="text-micro text-slate-500 font-semibold uppercase tracking-wider block">
-                Gym & Planner Suite
-              </span>
-            </div>
-          </div>
-          
-          {/* Mobile Close Button */}
-          <button 
-            onClick={() => setIsOpen(false)}
-            className="lg:hidden p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-900 border border-slate-800"
-          >
-            <X size={16} />
-          </button>
-        </div>
-
-        {/* Sidebar Navigation */}
-        <nav className="flex-grow p-4 space-y-2 overflow-y-auto">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-            
-            return (
-              <button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={`sidebar-nav-btn ${isActive ? 'active' : ''}`}
-              >
-                <Icon size={18} className={isActive ? 'text-theme-primary transition-colors' : 'text-slate-400'} />
-                <span className="flex-grow">{item.label}</span>
-                {item.badge !== undefined && item.badge !== 0 && (
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
-                    isActive ? 'bg-theme-glow text-theme-primary' : 'bg-slate-900 text-slate-400'
-                  }`}>
-                    {item.badge}
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </nav>
-
-        {/* Theme Engine Selector Panel */}
-        <div className="p-5 border-t border-slate-900 bg-slate-950-20">
-          <div className="flex items-center gap-2 mb-3 text-slate-400 text-xs font-bold uppercase tracking-wider">
-            <Sparkles size={12} className="text-theme-primary" />
-            <span>Select Accent Theme</span>
-          </div>
-          <div className="grid grid-cols-4 gap-2">
-            {themes.map((t) => {
-              const isSelected = currentTheme === t.id;
-              return (
-                <button
-                  key={t.id}
-                  onClick={() => setTheme(t.id)}
-                  className={`h-9 rounded-xl flex items-center justify-center border transition-all duration-300 ${
-                    isSelected 
-                      ? 'border-theme-primary bg-slate-900 shadow-md shadow-theme-glow' 
-                      : 'border-slate-850 hover:border-slate-700 bg-slate-905'
-                  }`}
-                  title={t.label}
-                >
-                  <span className={`w-3.5 h-3.5 rounded-full ${t.colorClass} block shadow-inner`} />
-                </button>
-              );
-            })}
-          </div>
-        </div>
+      <aside className="bg-sidebar text-sidebar-foreground hidden h-screen w-64 shrink-0 border-r lg:sticky lg:top-0 lg:flex lg:flex-col lg:p-4">
+        <NavContent {...navProps} />
       </aside>
+
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetContent side="left" className="bg-sidebar text-sidebar-foreground w-72 p-4">
+          <SheetHeader className="sr-only">
+            <SheetTitle>Navigation</SheetTitle>
+          </SheetHeader>
+          <NavContent {...navProps} onNavigate={() => setIsOpen(false)} />
+        </SheetContent>
+      </Sheet>
     </>
   );
-};
+}
