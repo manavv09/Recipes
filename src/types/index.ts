@@ -37,7 +37,9 @@ export interface Recipe {
   prepTime: number;    // time in minutes
   cookTime: number;    // time in minutes
   servings: number;    // baseline servings (e.g., 4)
-  cuisine: string;     // e.g., "Italian", "Mexican", "Japanese"
+  category: string;    // top-level e.g. "Indian Cuisine", "Italian", "Gym Diet"
+  subcategory?: string; // e.g. "Punjabi", "High Protein" (optional regional/style)
+  cuisine?: string;    // legacy field — migrated on load for older saved recipes
   tags: string[];      // e.g., ["Gluten-Free", "Vegetarian", "Spicy"]
   ingredients: Ingredient[];
   instructions: string[]; // List of step-by-step cooking instructions
