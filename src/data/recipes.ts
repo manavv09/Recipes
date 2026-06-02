@@ -497,6 +497,176 @@ const baseRecipes: Recipe[] = [
       'Toss greens, cucumber, and tomatoes with dressing.',
       'Top with chicken and serve immediately.'
     ]
+  },
+  {
+    id: 'rec-15',
+    title: 'Authentic Neapolitan Pizza',
+    description:
+      'True Italian Neapolitan pizza with a perfectly charred, puffy crust, simple San Marzano tomato sauce, fresh mozzarella, and aromatic basil.',
+    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80',
+    prepTime: 20,
+    cookTime: 90,
+    servings: 4,
+    category: 'Italian',
+    subcategory: 'Pizza & Bread',
+    tags: ['Italian', 'Vegetarian', 'Authentic', 'Comfort Food'],
+    difficulty: 'Hard',
+    calories: 350,
+    rating: 4.9,
+    macros: { protein: 12, carbs: 54, fat: 10 },
+    videoUrl: 'https://www.youtube.com/watch?v=xUEYRiZlyUM',
+    ingredients: [
+      { name: 'Tipo 00 Flour', amount: 500, unit: 'g', department: 'Pantry' },
+      { name: 'Water', amount: 325, unit: 'ml', department: 'Pantry' },
+      { name: 'Fine Sea Salt', amount: 15, unit: 'g', department: 'Pantry' },
+      { name: 'Fresh Yeast', amount: 3, unit: 'g', department: 'Pantry' },
+      { name: 'San Marzano Canned Tomatoes', amount: 400, unit: 'g', department: 'Pantry' },
+      { name: 'Fresh Mozzarella (Fior di Latte)', amount: 250, unit: 'g', department: 'Dairy' },
+      { name: 'Fresh Basil Leaves', amount: 10, unit: 'pcs', department: 'Produce' },
+      { name: 'Extra Virgin Olive Oil', amount: 2, unit: 'tbsp', department: 'Pantry' }
+    ],
+    instructions: [
+      'Dissolve yeast in room-temperature water. Gradually add flour and mix. Add salt and knead for 15-20 minutes until a smooth dough forms.',
+      'Let the dough rest for 2 hours, then divide into 4 equal balls. Place in a covered container and let rise/ferment for 24 hours in the fridge.',
+      'Bring dough to room temperature. Hand-stretch each ball from the center outward to preserve the puffy border (cornicione).',
+      'Spread crushed San Marzano tomatoes, top with fresh mozzarella, fresh basil, and a drizzle of olive oil.',
+      'Bake in a preheated pizza oven at 900°F for 90 seconds, or on a preheated pizza steel in a home oven at max temperature (~500°F) for 5-7 minutes.'
+    ]
+  },
+  {
+    id: 'rec-16',
+    title: 'Masterclass Sourdough Bread',
+    description:
+      'Artisanal crusty sourdough bread with a wild open crumb, developed using natural wild yeast fermentation and the stretch-and-fold method.',
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80',
+    prepTime: 30,
+    cookTime: 240,
+    servings: 10,
+    category: 'Italian',
+    subcategory: 'Pizza & Bread',
+    tags: ['Vegan', 'Vegetarian', 'Baking', 'Healthy'],
+    difficulty: 'Hard',
+    calories: 220,
+    rating: 4.8,
+    macros: { protein: 8, carbs: 45, fat: 1 },
+    videoUrl: 'https://www.youtube.com/watch?v=msqU-ylXWUs',
+    ingredients: [
+      { name: 'Bread Flour', amount: 450, unit: 'g', department: 'Pantry' },
+      { name: 'Whole Wheat Flour', amount: 50, unit: 'g', department: 'Pantry' },
+      { name: 'Water (Lukewarm)', amount: 350, unit: 'ml', department: 'Pantry' },
+      { name: 'Active Sourdough Starter', amount: 100, unit: 'g', department: 'Pantry' },
+      { name: 'Fine Sea Salt', amount: 10, unit: 'g', department: 'Pantry' }
+    ],
+    instructions: [
+      'Mix flours and 325ml of water. Let autolyse for 45 minutes.',
+      'Add active sourdough starter and mix well. Rest 30 minutes, then add salt and remaining 25ml water.',
+      'Perform 4 sets of stretch-and-folds every 30 minutes during the first 2 hours of bulk fermentation.',
+      'Shape the dough into a tight round or oval (boule/batard) and place in a floured proofing basket (banneton). Ferment in the fridge overnight.',
+      'Preheat a Dutch oven at 450°F (230°C). Score the cold dough and bake covered for 20 minutes, then uncovered for 20-25 minutes until golden brown.'
+    ]
+  },
+  {
+    id: 'rec-17',
+    title: "Guga's Perfect Ribeye Steak",
+    description:
+      'Juicy ribeye steak cooked to medium-rare perfection using garlic, rosemary-infused butter basting, and high-heat searing.',
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    prepTime: 5,
+    cookTime: 15,
+    servings: 2,
+    category: 'Gym Diet',
+    subcategory: 'High Protein',
+    tags: ['Meat', 'High-Protein', 'Low-Carb', 'Keto', 'Gym Diet'],
+    difficulty: 'Medium',
+    calories: 590,
+    rating: 4.9,
+    macros: { protein: 46, carbs: 1, fat: 45 },
+    videoUrl: 'https://www.youtube.com/watch?v=zicSNoVU86w',
+    ingredients: [
+      { name: 'Prime Ribeye Steak (1.5 inch thick)', amount: 2, unit: 'pcs', department: 'Meat' },
+      { name: 'Coarse Sea Salt', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Black Pepper', amount: 1, unit: 'tsp', department: 'Pantry' },
+      { name: 'Butter', amount: 3, unit: 'tbsp', department: 'Dairy' },
+      { name: 'Garlic Cloves (Crushed)', amount: 4, unit: 'pcs', department: 'Produce' },
+      { name: 'Fresh Rosemary Sprigs', amount: 2, unit: 'pcs', department: 'Produce' },
+      { name: 'Fresh Thyme Sprigs', amount: 3, unit: 'pcs', department: 'Produce' }
+    ],
+    instructions: [
+      'Pat the steaks dry and season generously with salt and pepper on all sides. Let sit at room temperature for 30 minutes.',
+      'Heat a cast iron skillet over high heat until smoking hot. Sear steaks for 2 minutes per side to develop a golden-brown crust.',
+      'Reduce heat to medium. Add butter, garlic, rosemary, and thyme to the skillet.',
+      'Tilt the pan and spoon the melted butter over the steaks continuously for 2-3 minutes until internal temperature reaches 130°F (for medium-rare).',
+      'Remove steaks, rest for 5-8 minutes before slicing to lock in all juices. Serve hot!'
+    ]
+  },
+  {
+    id: 'rec-18',
+    title: "Joshua Weissman's Ultimate Cheeseburger",
+    description:
+      'Gourmet homemade cheeseburger with toasted brioche buns, double smashed beef patties, cheddar cheese, and signature burger sauce.',
+    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80',
+    prepTime: 10,
+    cookTime: 10,
+    servings: 2,
+    category: 'Gym Diet',
+    subcategory: 'Bulking',
+    tags: ['Meat', 'High-Protein', 'Comfort Food', 'Bulking', 'Gym Diet'],
+    difficulty: 'Medium',
+    calories: 680,
+    rating: 4.8,
+    macros: { protein: 42, carbs: 32, fat: 40 },
+    videoUrl: 'https://www.youtube.com/watch?v=oFSgLH8AN7w',
+    ingredients: [
+      { name: 'Ground Beef (80/20)', amount: 300, unit: 'g', department: 'Meat' },
+      { name: 'Brioche Buns', amount: 2, unit: 'pcs', department: 'Bakery' },
+      { name: 'Cheddar Cheese Slices', amount: 4, unit: 'pcs', department: 'Dairy' },
+      { name: 'Mayonnaise', amount: 3, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Ketchup', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Sweet Pickle Relish', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Butter', amount: 1, unit: 'tbsp', department: 'Dairy' },
+      { name: 'Garlic Powder', amount: 0.5, unit: 'tsp', department: 'Pantry' }
+    ],
+    instructions: [
+      'Form ground beef into four 75g balls. Mix mayonnaise, ketchup, relish, and garlic powder for the burger sauce.',
+      'Toast brioche buns in a pan with butter until golden-brown, then set aside.',
+      'Heat a cast iron skillet on high until smoking. Place beef balls in pan and smash them completely flat using a spatula.',
+      'Season with salt and pepper. Cook for 2 minutes until a dark crust forms, then flip.',
+      'Immediately top each patty with cheddar cheese. Stack patties as cheese melts and remove from heat.',
+      'Spread sauce on buns, insert double patties, and serve hot.'
+    ]
+  },
+  {
+    id: 'rec-19',
+    title: 'Cantonese Crispy Pork Belly (Siu Yuk)',
+    description:
+      'Traditional Cantonese roasted pork belly with an unbelievably crispy, blistered skin and juicy, seasoned meat.',
+    image: 'https://images.unsplash.com/photo-1602404089979-a474c38ecd4e?auto=format&fit=crop&w=800&q=80',
+    prepTime: 20,
+    cookTime: 90,
+    servings: 6,
+    category: 'Asian Fusion',
+    subcategory: 'Japanese',
+    tags: ['Meat', 'Authentic', 'Comfort Food'],
+    difficulty: 'Hard',
+    calories: 480,
+    rating: 4.9,
+    macros: { protein: 28, carbs: 2, fat: 40 },
+    videoUrl: 'https://www.youtube.com/watch?v=A33iR_Lp_WQ',
+    ingredients: [
+      { name: 'Pork Belly (Skin-on)', amount: 1000, unit: 'g', department: 'Meat' },
+      { name: 'Shaoxing Wine', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Five Spice Powder', amount: 1, unit: 'tsp', department: 'Pantry' },
+      { name: 'White Pepper', amount: 0.5, unit: 'tsp', department: 'Pantry' },
+      { name: 'Coarse Sea Salt', amount: 300, unit: 'g', department: 'Pantry' },
+      { name: 'White Vinegar', amount: 1, unit: 'tbsp', department: 'Pantry' }
+    ],
+    instructions: [
+      'Boil pork belly skin-side down for 5 minutes. Pat completely dry, then prick the skin with tiny holes.',
+      'Rub meat (not the skin) with Shaoxing wine, five spice powder, and white pepper.',
+      'Flip pork skin-side up, brush with vinegar, and let dry in fridge uncovered overnight.',
+      'Form a foil box around pork, exposing only the skin. Cover the skin with a thick layer of coarse salt.',
+      'Roast at 400°F (200°C) for 50 minutes. Remove salt crust, and roast at 450°F (230°C) for 20-30 minutes until skin is completely blistered and crispy.'
+    ]
   }
 ];
 
