@@ -1,7 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
 import type { WeeklyMealPlan, Recipe, DayMeal, GymGoal, ShoppingItem } from './types';
 import { mockRecipes } from './data/recipes';
+import { migrateRecipeCategory } from './data/categories';
 import { compileShoppingList } from './utils/helpers';
+import { toYouTubeEmbedUrl } from './utils/youtube';
+import { getRecipeImageUrl } from './utils/recipeImages';
+import { normalizeIndianSubcategory } from './data/indianStates';
 import { Sidebar } from './components/Sidebar';
 import { DashboardOverview } from './components/DashboardOverview';
 import { RecipeExplorer } from './components/RecipeExplorer';
@@ -12,6 +16,12 @@ import { RecipeDetailModal } from './components/RecipeDetailModal';
 import { AssignMealModal } from './components/AssignMealModal';
 import { RecipeBuilderModal } from './components/RecipeBuilderModal';
 import { Menu, UtensilsCrossed } from 'lucide-react';
+import { applyAccentTheme, type AccentTheme } from '@/lib/theme';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { DietToggle } from '@/components/DietToggle';
+import { filterRecipesByDiet, type DietPreference } from '@/utils/diet';
 
 interface AssignMealState {
   open: boolean;
@@ -37,9 +47,17 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // 2. THEME STATES
-  const [theme, setTheme] = useState<'teal' | 'amber' | 'rose' | 'indigo'>(() => {
+  const [theme, setTheme] = useState<AccentTheme>(() => {
     const saved = localStorage.getItem('recipeforge_theme');
-    return (saved as any) || 'teal';
+    return (saved as AccentTheme) || 'teal';
+  });
+
+  const [dietPreference, setDietPreference] = useState<DietPreference>(() => {
+    const saved = localStorage.getItem('recipeforge_diet');
+    if (saved === 'veg' || saved === 'non-veg' || saved === 'all' || saved === 'vegan') {
+      return saved as DietPreference;
+    }
+    return 'all';
   });
 
   // 3. RECIPES STATES (Custom Recipes + Mock database)
@@ -55,9 +73,31 @@ export default function App() {
     return [];
   });
 
+  const normalizeRecipe = (recipe: Recipe): Recipe => {
+    const { category, subcategory } = migrateRecipeCategory(recipe);
+    const normalizedSub =
+      category === 'Indian Cuisine' ? normalizeIndianSubcategory(subcategory) : subcategory;
+    const normalized: Recipe = {
+      ...recipe,
+      category,
+      subcategory: normalizedSub,
+      image: getRecipeImageUrl({ ...recipe, category, subcategory: normalizedSub }),
+      videoUrl: recipe.videoUrl ? toYouTubeEmbedUrl(recipe.videoUrl) : undefined
+    };
+    if (category === 'Indian Cuisine' && !normalized.tags.includes('Authentic')) {
+      normalized.tags = [...normalized.tags, 'Authentic'];
+    }
+    return normalized;
+  };
+
   const allRecipes = useMemo(() => {
-    return [...customRecipes, ...mockRecipes];
+    return [...customRecipes.map(normalizeRecipe), ...mockRecipes.map(normalizeRecipe)];
   }, [customRecipes]);
+
+  const dietFilteredRecipes = useMemo(
+    () => filterRecipesByDiet(allRecipes, dietPreference),
+    [allRecipes, dietPreference]
+  );
 
   // 4. FAVORITES STATE
   const [favorites, setFavorites] = useState<string[]>(() => {
@@ -140,10 +180,12 @@ export default function App() {
 
   useEffect(() => {
     localStorage.setItem('recipeforge_theme', theme);
-    const body = document.body;
-    body.className = ''; // Reset
-    body.classList.add(`theme-${theme}`);
+    applyAccentTheme(theme);
   }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem('recipeforge_diet', dietPreference);
+  }, [dietPreference]);
 
   useEffect(() => {
     localStorage.setItem('recipeforge_customrecipes', JSON.stringify(customRecipes));
@@ -302,12 +344,7 @@ export default function App() {
   };
 
   return (
-    <div className="main-layout-wrapper font-sans text-slate-100 antialiased overflow-x-hidden relative min-h-screen">
-      {/* Animated Decorative Glow Elements */}
-      <div className="absolute top-[-5%] left-[-5%] w-[45%] h-[45%] bg-theme-primary/5 rounded-full blur-[120px] pointer-events-none glow-blob-1" />
-      <div className="absolute bottom-[-5%] right-[-5%] w-[45%] h-[45%] bg-indigo-900/5 rounded-full blur-[120px] pointer-events-none glow-blob-2" />
-
-      {/* Sidebar Navigation */}
+    <div className="bg-background flex min-h-screen">
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -316,39 +353,41 @@ export default function App() {
         shoppingCheckedCount={shoppingCheckedCount}
         currentTheme={theme}
         setTheme={setTheme}
+        dietPreference={dietPreference}
+        setDietPreference={setDietPreference}
         isOpen={mobileMenuOpen}
         setIsOpen={setMobileMenuOpen}
       />
 
-      {/* Main Content Area */}
-      <div className="flex-grow flex flex-col min-w-0">
-        
-        {/* Mobile Header Bar */}
-        <header className="lg:hidden sticky top-0 z-30 bg-slate-950/80 backdrop-blur-md border-b border-slate-900 h-16 flex items-center justify-between px-4">
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="bg-background/95 sticky top-0 z-30 flex h-14 items-center justify-between border-b px-4 backdrop-blur lg:hidden">
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => setMobileMenuOpen(true)}
-              className="p-2 rounded-xl bg-slate-900 text-slate-400 hover:text-white border border-slate-800"
-            >
-              <Menu size={18} />
-            </button>
-            <div className="flex items-center gap-2 pl-2">
-              <UtensilsCrossed size={16} className="text-theme-primary" />
-              <span className="text-sm font-extrabold tracking-tight">RecipeForge</span>
-            </div>
+            <Button variant="outline" size="icon" onClick={() => setMobileMenuOpen(true)}>
+              <Menu className="size-4" />
+            </Button>
+            <UtensilsCrossed className="text-primary size-4" />
+            <span className="text-sm font-semibold">RecipeForge</span>
           </div>
-          
-          <span className="text-[10px] text-theme-primary font-bold bg-theme-glow px-2.5 py-0.5 rounded-full capitalize">
-            {activeTab}
-          </span>
+          <div className="flex items-center gap-2">
+            <DietToggle
+              value={dietPreference}
+              onChange={setDietPreference}
+              compact
+              className="max-w-[280px]"
+            />
+            <Badge variant="secondary" className="capitalize">
+              {activeTab}
+            </Badge>
+          </div>
         </header>
 
-        {/* Core Tab Panels Router */}
-        <main className="content-panel w-full flex-grow max-w-7xl">
+        <main className="mx-auto w-full max-w-7xl flex-1 p-4 md:p-6 lg:p-8">
           {activeTab === 'dashboard' && (
             <DashboardOverview
               mealPlan={mealPlan}
-              recipes={allRecipes}
+              recipes={dietFilteredRecipes}
+              allRecipesCount={allRecipes.length}
+              dietPreference={dietPreference}
               gymGoal={gymGoal}
               onViewRecipe={(recipe) => setActiveDetailRecipe(recipe)}
               onAddToPlan={(recipe) =>
@@ -360,7 +399,9 @@ export default function App() {
 
           {activeTab === 'recipes' && (
             <RecipeExplorer
-              recipes={allRecipes}
+              recipes={dietFilteredRecipes}
+              totalRecipesCount={allRecipes.length}
+              dietPreference={dietPreference}
               favorites={favorites}
               onViewDetails={(recipe) => setActiveDetailRecipe(recipe)}
               onAddToPlan={(recipe) =>
@@ -387,7 +428,7 @@ export default function App() {
             <GymDietPlanner
               gymGoal={gymGoal}
               onSaveGoal={handleSaveGoal}
-              recipes={allRecipes}
+              recipes={dietFilteredRecipes}
               onViewRecipe={(recipe) => setActiveDetailRecipe(recipe)}
               onAddToPlan={(recipe) =>
                 setAssignMeal({ open: true, day: null, mealType: null, recipe })
@@ -409,9 +450,9 @@ export default function App() {
           )}
         </main>
 
-        {/* Footer */}
-        <footer className="border-t border-slate-900 bg-slate-950 py-6 text-center text-xs text-slate-600">
-          <p>© {new Date().getFullYear()} RecipeForge Dashboard. Built with React & TypeScript.</p>
+        <footer className="text-muted-foreground border-t px-4 py-6 text-center text-xs">
+          <Separator className="mb-4" />
+          <p>© {new Date().getFullYear()} RecipeForge · React, TypeScript & shadcn/ui</p>
         </footer>
       </div>
 
@@ -434,7 +475,7 @@ export default function App() {
       {/* Schedule Meal Drawer */}
       {assignMeal.open && (
         <AssignMealModal
-          recipes={allRecipes}
+          recipes={dietFilteredRecipes}
           prefilledDay={assignMeal.day}
           prefilledMealType={assignMeal.mealType}
           prefilledRecipe={assignMeal.recipe}
