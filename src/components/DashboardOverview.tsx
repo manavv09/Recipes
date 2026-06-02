@@ -1,10 +1,21 @@
-import React, { useMemo } from 'react';
-import type { WeeklyMealPlan, Recipe, GymGoal } from '../types';
-import { Flame, Dumbbell, Award, Plus, Calendar, Star } from 'lucide-react';
+import { useMemo } from 'react';
+import type { WeeklyMealPlan, Recipe, GymGoal } from '@/types';
+import { getRecipeCategoryBreadcrumb } from '@/data/categories';
+import { Flame, Dumbbell, Award, Plus, Calendar, Star, Info } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { RecipeImage } from '@/components/RecipeImage';
+import type { DietPreference } from '@/utils/diet';
+import { getDietLabel } from '@/utils/diet';
 
 interface DashboardOverviewProps {
   mealPlan: WeeklyMealPlan;
   recipes: Recipe[];
+  allRecipesCount?: number;
+  dietPreference?: DietPreference;
   gymGoal: GymGoal | null;
   onViewRecipe: (recipe: Recipe) => void;
   onAddToPlan: (recipe: Recipe) => void;
@@ -13,163 +24,54 @@ interface DashboardOverviewProps {
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-// Reusable Circular Progress Ring Component
-const RadialRing = ({ 
-  percent, 
-  color, 
-  size = 76, 
-  strokeWidth = 6, 
-  label, 
-  value, 
-  unit 
-}: { 
-  percent: number; 
-  color: string; 
-  size?: number; 
-  strokeWidth?: number; 
-  label: string; 
-  value: number; 
-  unit: string; 
-}) => {
-  const radius = (size - strokeWidth) / 2;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (circumference * Math.min(100, percent)) / 100;
-  
+function MacroBar({ label, value, target, className }: { label: string; value: number; target: number; className?: string }) {
+  const pct = Math.min(100, Math.round((value / target) * 100)) || 0;
   return (
-    <div className="flex flex-col items-center justify-center p-3.5 bg-slate-905 border border-slate-850 rounded-2xl relative overflow-hidden group">
-      <div className="relative flex items-center justify-center">
-        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="transform -rotate-90">
-          {/* Background circle */}
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            stroke="rgba(255, 255, 255, 0.02)"
-            strokeWidth={strokeWidth}
-            fill="transparent"
-          />
-          {/* Active progress circle */}
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            stroke={color}
-            strokeWidth={strokeWidth}
-            fill="transparent"
-            strokeDasharray={circumference}
-            strokeDashoffset={strokeDashoffset}
-            strokeLinecap="round"
-            className="transition-all duration-1000 ease-out"
-            style={{ filter: `drop-shadow(0 0 3px ${color}80)` }}
-          />
-        </svg>
-        {/* Central percentage text */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <span className="text-[11px] font-black text-slate-100">{percent}%</span>
-        </div>
+    <div className="space-y-2">
+      <div className="flex justify-between text-sm">
+        <span className="font-medium">{label}</span>
+        <span className="text-muted-foreground">
+          {value}g / {target}g
+        </span>
       </div>
-      
-      {/* Description below */}
-      <div className="text-center mt-3">
-        <span className="text-[9px] text-slate-500 font-extrabold uppercase tracking-wider block">{label}</span>
-        <span className="text-xs font-bold text-slate-200 mt-0.5">{value}{unit}</span>
-      </div>
+      <Progress value={pct} className={cn('h-2', className)} />
     </div>
   );
-};
+}
 
-// Calorie Main Radial Ring Component
-const CalorieRadial = ({ 
-  percent, 
-  value, 
-  target 
-}: { 
-  percent: number; 
-  value: number; 
-  target: number; 
-}) => {
-  const size = 150;
-  const strokeWidth = 10;
-  const radius = (size - strokeWidth) / 2;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (circumference * Math.min(100, percent)) / 100;
-  
-  return (
-    <div className="flex flex-col items-center justify-center p-5 bg-slate-905 border border-slate-850 rounded-2xl relative overflow-hidden group">
-      <div className="relative flex items-center justify-center">
-        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="transform -rotate-90">
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            stroke="rgba(255, 255, 255, 0.02)"
-            strokeWidth={strokeWidth}
-            fill="transparent"
-          />
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            stroke="var(--theme-primary)"
-            strokeWidth={strokeWidth}
-            fill="transparent"
-            strokeDasharray={circumference}
-            strokeDashoffset={strokeDashoffset}
-            strokeLinecap="round"
-            className="transition-all duration-1000 ease-out"
-            style={{ filter: `drop-shadow(0 0 5px var(--theme-primary))` }}
-          />
-        </svg>
-        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <Flame size={20} className="text-amber-500 animate-pulse mb-0.5" />
-          <span className="text-2xl font-black text-white leading-tight">{value}</span>
-          <span className="text-[8px] text-slate-500 font-extrabold uppercase tracking-wider">kcal active</span>
-        </div>
-      </div>
-      <div className="text-center mt-4">
-        <span className="text-xs text-slate-400 font-semibold">Weekly Target: {target} kcal</span>
-      </div>
-    </div>
-  );
-};
-
-export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
+export function DashboardOverview({
   mealPlan,
   recipes,
+  allRecipesCount,
+  dietPreference = 'all',
   gymGoal,
   onViewRecipe,
   onAddToPlan,
   setActiveTab
-}) => {
+}: DashboardOverviewProps) {
   const today = useMemo(() => {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const todayIndex = new Date().getDay();
-    return days[todayIndex];
+    return days[new Date().getDay()];
   }, []);
 
-  // Sum actual weekly planned macros
   const weeklyStats = useMemo(() => {
     let calories = 0;
     let protein = 0;
     let carbs = 0;
     let fat = 0;
-
     Object.values(mealPlan).forEach((dayMeal) => {
-      const activeMeals = [dayMeal.breakfast, dayMeal.lunch, dayMeal.dinner].filter(
-        (meal): meal is NonNullable<typeof meal> => meal !== undefined
-      );
-
-      activeMeals.forEach((meal) => {
-        const ratio = meal.servings / meal.recipe.servings;
-        calories += meal.recipe.calories * ratio;
-        if (meal.recipe.macros) {
-          protein += meal.recipe.macros.protein * ratio;
-          carbs += meal.recipe.macros.carbs * ratio;
-          fat += meal.recipe.macros.fat * ratio;
-        }
-      });
+      [dayMeal.breakfast, dayMeal.lunch, dayMeal.dinner]
+        .filter((m): m is NonNullable<typeof m> => m !== undefined)
+        .forEach((meal) => {
+          const ratio = meal.servings / meal.recipe.servings;
+          calories += meal.recipe.calories * ratio;
+          if (meal.recipe.macros) {
+            protein += meal.recipe.macros.protein * ratio;
+            carbs += meal.recipe.macros.carbs * ratio;
+            fat += meal.recipe.macros.fat * ratio;
+          }
+        });
     });
-
     return {
       calories: Math.round(calories),
       protein: Math.round(protein),
@@ -187,258 +89,193 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         fat: gymGoal.fat * 7
       };
     }
-    return {
-      calories: 2000 * 7,
-      protein: 130 * 7,
-      carbs: 220 * 7,
-      fat: 65 * 7
-    };
+    return { calories: 14000, protein: 910, carbs: 1540, fat: 455 };
   }, [gymGoal]);
 
   const featuredRecipe = useMemo(() => {
-    if (recipes.length === 0) return null;
-    const dayOfYear = Math.floor((new Date().getTime() - new Date(new Date().getFullYear(), 0, 1).getTime()) / 86400000);
-    const index = dayOfYear % recipes.length;
-    return recipes[index];
+    if (!recipes.length) return null;
+    const dayOfYear = Math.floor(
+      (Date.now() - new Date(new Date().getFullYear(), 0, 1).getTime()) / 86400000
+    );
+    return recipes[dayOfYear % recipes.length];
   }, [recipes]);
 
-  const getPercent = (value: number, target: number) => {
-    return Math.min(100, Math.round((value / target) * 100)) || 0;
-  };
+  const caloriePct = Math.min(100, Math.round((weeklyStats.calories / targets.calories) * 100)) || 0;
 
   return (
-    <div className="space-y-8 animate-fade-in">
-      {/* Control Banner Card */}
-      <div className="glass-panel p-6 md:p-8 rounded-3xl border border-slate-800-80 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden">
-        <div className="absolute -right-20 -top-20 w-60 h-60 bg-theme-primary/10 rounded-full blur-[80px] pointer-events-none" />
-        
-        <div>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-            Welcome back to <span className="text-theme-primary transition-colors">RecipeForge</span>
-          </h2>
-          <p className="text-sm text-slate-400 mt-2 max-w-xl leading-relaxed">
-            Your fitness-focused culinary workspace. Review your weekly nutrition, schedule today's gym prep meals, and explore high-protein cooking tutorials.
-          </p>
-        </div>
+    <div className="space-y-8">
+      <Card className="border-primary/20 bg-gradient-to-br from-card to-muted/20">
+        <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <CardTitle className="text-2xl md:text-3xl">
+              Welcome to <span className="text-primary">RecipeForge</span>
+            </CardTitle>
+            <CardDescription className="mt-2 max-w-xl text-base">
+              Plan meals, track macros, and explore recipes with video tutorials.
+              {dietPreference !== 'all' && allRecipesCount != null && (
+                <span className="text-primary mt-1 block text-sm">
+                  Showing {dietPreference === 'veg' ? 'vegetarian' : dietPreference === 'vegan' ? 'vegan' : 'non-vegetarian'} recipes (
+                  {recipes.length} of {allRecipesCount}).
+                </span>
+              )}
+            </CardDescription>
+          </div>
+          <Button onClick={() => setActiveTab('gym')}>
+            <Dumbbell className="size-4" />
+            Gym macro targets
+          </Button>
+        </CardHeader>
+      </Card>
 
-        <button
-          onClick={() => setActiveTab('gym')}
-          className="flex-shrink-0 flex items-center gap-2 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-400 hover:to-emerald-500 text-slate-950 font-black px-5 py-3 text-xs transition-all duration-300 shadow-lg shadow-theme-glow active:scale-95 cursor-pointer"
-        >
-          <Dumbbell size={16} />
-          <span>Gym Macro Targets</span>
-        </button>
-      </div>
-
-      {/* Main 3-Column Layout */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        
-        {/* Left 2 Columns: Central Meal Schedule Grid & Featured Recipe */}
-        <div className="xl:col-span-2 space-y-8">
-          
-          {/* Weekly Schedule Glance (Weekly Meal Grid) */}
+      <div className="grid grid-cols-1 gap-8 xl:grid-cols-3">
+        <div className="space-y-8 xl:col-span-2">
           <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
-                <Calendar size={18} className="text-theme-primary" />
-                <span>Weekly Schedule Glance</span>
+            <div className="flex items-center justify-between">
+              <h3 className="flex items-center gap-2 font-semibold">
+                <Calendar className="text-primary size-4" />
+                Weekly schedule
               </h3>
-              <span 
-                onClick={() => setActiveTab('planner')}
-                className="text-xs text-slate-450 hover:text-theme-primary font-bold transition-colors cursor-pointer"
-              >
-                Open Full Planner →
-              </span>
+              <Button variant="link" className="h-auto p-0 text-xs" onClick={() => setActiveTab('planner')}>
+                Open planner →
+              </Button>
             </div>
-            
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 md:grid-cols-7">
               {DAYS.map((day) => {
                 const dayPlan = mealPlan[day] || {};
-                const dayShort = day.substring(0, 3);
                 const isToday = day === today;
-                
                 return (
-                  <div key={day} className={`glass-panel p-3 rounded-2xl flex flex-col gap-2.5 border transition-all ${
-                    isToday ? 'border-theme-primary bg-theme-glow/10 shadow-md shadow-theme-glow' : 'border-slate-850'
-                  }`}>
-                    <span className={`text-[10px] font-black tracking-widest uppercase text-center block ${
-                      isToday ? 'text-theme-primary' : 'text-slate-500'
-                    }`}>
-                      {dayShort}
-                    </span>
-                    
-                    <div className="flex flex-col gap-1.5">
+                  <Card
+                    key={day}
+                    className={cn('py-3', isToday && 'border-primary ring-1 ring-primary/30')}
+                  >
+                    <CardContent className="space-y-2 p-3">
+                      <p
+                        className={cn(
+                          'text-center text-[10px] font-bold uppercase tracking-wider',
+                          isToday ? 'text-primary' : 'text-muted-foreground'
+                        )}
+                      >
+                        {day.slice(0, 3)}
+                      </p>
                       {(['breakfast', 'lunch', 'dinner'] as const).map((mealType) => {
-                        const meal = (dayPlan as any)[mealType];
+                        const meal = dayPlan[mealType];
                         return (
-                          <div key={mealType} className="relative group/mini h-11 rounded-xl overflow-hidden border border-slate-900 bg-slate-950 flex items-center justify-center">
+                          <div
+                            key={mealType}
+                            className="bg-muted relative flex h-10 items-center justify-center overflow-hidden rounded-md border"
+                          >
                             {meal ? (
-                              <>
-                                <img
-                                  src={meal.recipe.image}
-                                  alt={meal.recipe.title}
-                                  className="w-full h-full object-cover group-hover/mini:scale-110 transition-transform duration-300"
-                                />
-                                <div className="absolute inset-0 bg-slate-950/85 flex flex-col items-center justify-center p-1 opacity-0 group-hover/mini:opacity-100 transition-opacity">
-                                  <span className="text-[8px] font-extrabold text-white truncate w-full text-center">{meal.recipe.title}</span>
-                                  <span className="text-[7px] text-theme-primary font-bold block mt-0.5">{mealType}</span>
-                                </div>
-                                <div className="absolute bottom-0.5 right-1 px-1 rounded bg-slate-905/90 border border-slate-800 text-[6px] font-black uppercase text-slate-350 pointer-events-none group-hover/mini:opacity-0 transition-opacity">
-                                  {mealType[0]}
-                                </div>
-                              </>
+                              <RecipeImage
+                                recipe={meal.recipe}
+                                className="size-full"
+                                imgClassName="pointer-events-none"
+                              />
                             ) : (
-                              <button
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="size-full rounded-none"
                                 onClick={() => setActiveTab('planner')}
-                                className="w-full h-full flex items-center justify-center text-slate-700 hover:text-theme-primary transition-colors cursor-pointer"
-                                title={`Add ${mealType} for ${day}`}
                               >
-                                <Plus size={11} />
-                              </button>
+                                <Plus className="text-muted-foreground size-3" />
+                              </Button>
                             )}
                           </div>
                         );
                       })}
-                    </div>
-                  </div>
+                    </CardContent>
+                  </Card>
                 );
               })}
             </div>
           </div>
 
-          {/* Featured Recipe Card */}
           {featuredRecipe && (
-            <div className="space-y-4">
-              <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
-                <Star size={18} className="text-amber-500 fill-amber-500" />
-                <span>Featured Recipe of the Day</span>
-              </h3>
-
-              <div className="glass-panel rounded-3xl border border-slate-850 overflow-hidden flex flex-col md:flex-row">
-                <div className="relative md:w-2/5 h-48 md:h-auto overflow-hidden">
-                  <img
-                    src={featuredRecipe.image}
-                    alt={featuredRecipe.title}
-                    className="w-full h-full object-cover"
+            <Card className="overflow-hidden pt-0">
+              <div className="grid md:grid-cols-5">
+                <div className="relative md:col-span-2">
+                  <RecipeImage
+                    recipe={featuredRecipe}
+                    className="aspect-video w-full md:aspect-auto md:h-full min-h-48"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-slate-950 via-slate-950/20 to-transparent" />
                 </div>
-
-                <div className="p-6 md:p-7 md:w-3/5 flex flex-col justify-between gap-4">
+                <CardContent className="flex flex-col justify-between gap-4 md:col-span-3 md:p-6">
                   <div>
-                    <div className="flex flex-wrap gap-2 items-center mb-3">
-                      <span className="rounded-full bg-slate-900 border border-slate-800 px-3 py-0.5 text-micro font-bold uppercase tracking-wider text-theme-primary">
-                        {featuredRecipe.cuisine}
-                      </span>
+                    <div className="mb-2 flex flex-wrap gap-2">
+                      <Badge
+                        variant={getDietLabel(featuredRecipe) === 'Non-Veg' ? 'outline' : 'secondary'}
+                        className={
+                          getDietLabel(featuredRecipe) === 'Vegan'
+                            ? 'border-teal-500/30 text-teal-600 dark:text-teal-400'
+                            : getDietLabel(featuredRecipe) === 'Veg'
+                              ? 'border-emerald-500/30 text-emerald-600 dark:text-emerald-400'
+                              : 'border-rose-500/30 text-rose-600 dark:text-rose-400'
+                        }
+                      >
+                        {getDietLabel(featuredRecipe)}
+                      </Badge>
+                      <Badge variant="secondary">{getRecipeCategoryBreadcrumb(featuredRecipe)}</Badge>
                       {featuredRecipe.macros && (
-                        <span className="rounded-full bg-emerald-500-10 text-emerald-450 border border-emerald-500/20 px-3 py-0.5 text-micro font-bold">
-                          {featuredRecipe.macros.protein}g Muscle Protein
-                        </span>
+                        <Badge>{featuredRecipe.macros.protein}g protein</Badge>
                       )}
                     </div>
-                    
-                    <h4 className="text-lg font-bold text-slate-100">{featuredRecipe.title}</h4>
-                    <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                      {featuredRecipe.description}
-                    </p>
+                    <h4 className="flex items-center gap-2 text-lg font-semibold">
+                      <Star className="size-4 fill-amber-400 text-amber-400" />
+                      Recipe of the day
+                    </h4>
+                    <p className="mt-1 font-medium">{featuredRecipe.title}</p>
+                    <p className="text-muted-foreground mt-2 text-sm">{featuredRecipe.description}</p>
                   </div>
-
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => onViewRecipe(featuredRecipe)}
-                      className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-850 text-xs font-bold text-slate-200 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
-                    >
-                      Recipe Details
-                    </button>
-                    <button
-                      onClick={() => onAddToPlan(featuredRecipe)}
-                      className="px-4 py-2 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-400 hover:to-emerald-500 text-slate-950 font-black text-xs transition-all shadow-md shadow-theme-glow active:scale-95 cursor-pointer"
-                    >
-                      Add to Plan
-                    </button>
+                  <div className="flex gap-2">
+                    <Button variant="outline" onClick={() => onViewRecipe(featuredRecipe)}>
+                      Details
+                    </Button>
+                    <Button onClick={() => onAddToPlan(featuredRecipe)}>Add to plan</Button>
                   </div>
-                </div>
+                </CardContent>
               </div>
-            </div>
+            </Card>
           )}
         </div>
 
-        {/* Right Column: Nutrition Metrics Tracker (Circular Radials) */}
-        <div className="xl:col-span-1 space-y-6">
-          <div className="glass-panel p-6 rounded-3xl border border-slate-850 flex flex-col gap-6">
-            <div className="flex justify-between items-center border-b border-slate-900 pb-3">
-              <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-                <Award size={16} className="text-theme-primary" />
-                <span>Gym Nutrition Hub</span>
-              </h3>
-              <span className="text-[9px] font-black text-slate-500 bg-slate-900 border border-slate-850 px-2 py-0.5 rounded-full uppercase">
-                {gymGoal ? gymGoal.goal : 'Maintain'}
-              </span>
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center gap-2 text-base">
+                <Award className="text-primary size-4" />
+                Weekly nutrition
+              </CardTitle>
+              <Badge variant="outline" className="capitalize">
+                {gymGoal?.goal || 'maintain'}
+              </Badge>
             </div>
-
-            {/* Central Calorie Progress Ring */}
-            <div className="flex justify-center">
-              <CalorieRadial
-                percent={getPercent(weeklyStats.calories, targets.calories)}
-                value={weeklyStats.calories}
-                target={targets.calories}
-              />
-            </div>
-
-            {/* Micro Radial Split Indicators */}
-            <div className="grid grid-cols-3 gap-3 border-t border-slate-900 pt-5">
-              <RadialRing
-                percent={getPercent(weeklyStats.protein, targets.protein)}
-                color="var(--theme-primary)"
-                label="Protein"
-                value={weeklyStats.protein}
-                unit="g"
-              />
-              <RadialRing
-                percent={getPercent(weeklyStats.carbs, targets.carbs)}
-                color="hsl(239, 84%, 66%)"
-                label="Carbs"
-                value={weeklyStats.carbs}
-                unit="g"
-              />
-              <RadialRing
-                percent={getPercent(weeklyStats.fat, targets.fat)}
-                color="hsl(150, 70%, 45%)"
-                label="Fats"
-                value={weeklyStats.fat}
-                unit="g"
-              />
-            </div>
-
-            <div className="bg-slate-905 border border-slate-850 p-4 rounded-2xl flex gap-2 items-start">
-              <InfoIcon className="text-theme-primary flex-shrink-0 mt-0.5" />
-              <p className="text-[10px] text-slate-450 leading-relaxed">
-                Rings compile automatically based on serving sizes and food item scales mapped in your planner. Adjust strategy anytime inside the Gym Diet Planner calculator page.
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="space-y-2 text-center">
+              <div className="flex items-center justify-center gap-2">
+                <Flame className="size-5 text-amber-500" />
+                <span className="text-3xl font-bold">{weeklyStats.calories}</span>
+                <span className="text-muted-foreground text-sm">kcal planned</span>
+              </div>
+              <Progress value={caloriePct} className="h-3" />
+              <p className="text-muted-foreground text-xs">
+                {caloriePct}% of {targets.calories} kcal weekly target
               </p>
             </div>
-          </div>
-        </div>
+
+            <MacroBar label="Protein" value={weeklyStats.protein} target={targets.protein} />
+            <MacroBar label="Carbs" value={weeklyStats.carbs} target={targets.carbs} />
+            <MacroBar label="Fat" value={weeklyStats.fat} target={targets.fat} />
+
+            <div className="bg-muted/30 flex gap-2 rounded-lg border p-3 text-xs">
+              <Info className="text-primary mt-0.5 size-3.5 shrink-0" />
+              <p className="text-muted-foreground leading-relaxed">
+                Totals update from your weekly planner servings. Set targets in Gym Diet.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
-};
-
-// Internal icon wrapper to save imports
-const InfoIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="14"
-    height="14"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <circle cx="12" cy="12" r="10" />
-    <path d="M12 16v-4" />
-    <path d="M12 8h.01" />
-  </svg>
-);
+}

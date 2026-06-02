@@ -1,22 +1,40 @@
-import React, { useState } from 'react';
-import type { Recipe, Ingredient, Difficulty } from '../types';
-import { X, Plus, Trash2, ArrowLeft, ArrowRight, Save, Dumbbell, Play } from 'lucide-react';
+import { useState } from 'react';
+import type { Recipe, Ingredient, Difficulty } from '@/types';
+import { RECIPE_CATEGORIES } from '@/data/categories';
+import { INDIAN_STATE_CUISINES } from '@/data/indianStates';
+import { toYouTubeEmbedUrl } from '@/utils/youtube';
+import { Plus, Trash2, ArrowLeft, ArrowRight, Save, Dumbbell, Play } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface RecipeBuilderModalProps {
   onClose: () => void;
   onSave: (recipe: Recipe) => void;
 }
 
-export const RecipeBuilderModal: React.FC<RecipeBuilderModalProps> = ({
+export function RecipeBuilderModal({
   onClose,
   onSave
-}) => {
+}: RecipeBuilderModalProps) {
   const [step, setStep] = useState<number>(1);
 
   // Form State
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [cuisine, setCuisine] = useState('Healthy');
+  const [category, setCategory] = useState(RECIPE_CATEGORIES[0].label);
+  const [subcategory, setSubcategory] = useState<string>('');
   const [difficulty, setDifficulty] = useState<Difficulty>('Easy');
   const [image, setImage] = useState('');
   const [prepTime, setPrepTime] = useState<number>(15);
@@ -68,22 +86,11 @@ export const RecipeBuilderModal: React.FC<RecipeBuilderModalProps> = ({
     setInstructions(instructions.filter((_, i) => i !== idx));
   };
 
-  // Convert youtube links to embed format
-  const getEmbedVideoUrl = (url: string) => {
-    if (!url) return '';
-    try {
-      if (url.includes('youtube.com/watch?v=')) {
-        const videoId = url.split('v=')[1]?.split('&')[0];
-        return `https://www.youtube.com/embed/${videoId}`;
-      } else if (url.includes('youtu.be/')) {
-        const videoId = url.split('youtu.be/')[1]?.split('?')[0];
-        return `https://www.youtube.com/embed/${videoId}`;
-      }
-      return url;
-    } catch (e) {
-      return url;
-    }
-  };
+  const activeCategoryNode = RECIPE_CATEGORIES.find((c) => c.label === category);
+  const subcategoryOptions =
+    category === 'Indian Cuisine'
+      ? [...INDIAN_STATE_CUISINES]
+      : (activeCategoryNode?.subcategories ?? []);
 
   const handleSubmit = () => {
     if (!title.trim() || ingredients.length === 0 || instructions.length === 0) {
@@ -101,8 +108,14 @@ export const RecipeBuilderModal: React.FC<RecipeBuilderModalProps> = ({
       prepTime: Number(prepTime) || 10,
       cookTime: Number(cookTime) || 10,
       servings: Number(servings) || 2,
-      cuisine: cuisine.trim(),
-      tags: ['Homecooked', protein >= 25 ? 'High-Protein' : 'Healthy'],
+      category,
+      subcategory: subcategory || undefined,
+      tags: [
+        'Homecooked',
+        category === 'Gym Diet' ? 'Gym Diet' : category,
+        category === 'Indian Cuisine' ? 'Authentic' : '',
+        protein >= 25 ? 'High-Protein' : 'Healthy'
+      ].filter(Boolean),
       difficulty,
       calories: Number(calories) || 300,
       rating: 5.0,
@@ -111,7 +124,7 @@ export const RecipeBuilderModal: React.FC<RecipeBuilderModalProps> = ({
         carbs: Number(carbs) || 0,
         fat: Number(fat) || 0
       },
-      videoUrl: getEmbedVideoUrl(videoUrl),
+      videoUrl: videoUrl.trim() ? toYouTubeEmbedUrl(videoUrl) : undefined,
       ingredients,
       instructions
     };
@@ -120,87 +133,87 @@ export const RecipeBuilderModal: React.FC<RecipeBuilderModalProps> = ({
     onClose();
   };
 
-  return (
-    <div className="modal-overlay flex items-center justify-center p-4 z-50 animate-fade-in">
-      <div className="glass-panel w-full max-w-lg rounded-3xl border border-slate-800-80 shadow-2xl p-6 relative flex flex-col max-h-[90vh] overflow-y-auto animate-slide-up">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute right-5 top-5 p-1.5 rounded-full text-slate-500 hover:text-white hover:bg-slate-900 border border-slate-800 transition-all cursor-pointer"
-        >
-          <X size={16} />
-        </button>
+  const stepLabels = ['Details', 'Nutrition & video', 'Ingredients', 'Instructions'];
 
-        {/* Header */}
-        <div className="mb-6">
-          <h3 className="text-lg font-bold text-slate-100">Create Custom Recipe</h3>
-          <div className="flex gap-1 mt-2">
-            {[1, 2, 3, 4].map((stepIdx) => (
-              <div
-                key={stepIdx}
-                className={`h-1.5 flex-grow rounded-full transition-all duration-300 ${
-                  step >= stepIdx ? 'bg-theme-primary' : 'bg-slate-800'
-                }`}
-              />
-            ))}
-          </div>
-          <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-1.5 block">
-            Step {step} of 4: {
-              step === 1 ? 'General Details' :
-              step === 2 ? 'Gym Nutrition & Video' :
-              step === 3 ? 'Ingredients Checklist' : 'Cooking Instructions'
-            }
-          </span>
-        </div>
+  return (
+    <Dialog open onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="flex max-h-[90vh] max-w-lg flex-col gap-0 overflow-hidden p-0 sm:max-w-lg">
+        <DialogHeader className="space-y-3 p-6 pb-4">
+          <DialogTitle>Create custom recipe</DialogTitle>
+          <DialogDescription>
+            Step {step} of 4 — {stepLabels[step - 1]}
+          </DialogDescription>
+          <Progress value={(step / 4) * 100} className="h-1.5" />
+        </DialogHeader>
+
+        <ScrollArea className="max-h-[50vh] px-6">
 
         {/* STEP 1: GENERAL INFO */}
         {step === 1 && (
           <div className="space-y-4">
-            <div className="flex flex-col gap-1.5">
-              <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">Recipe Name *</label>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g. Avocado Toast Deluxe"
-                className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200"
-              />
+            <div className="space-y-2">
+              <Label>Recipe name *</Label>
+              <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Avocado toast" />
+            </div>
+            <div className="space-y-2">
+              <Label>Description</Label>
+              <Textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} />
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">Short Description</label>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Brief summary of your recipe..."
-                rows={2}
-                className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200 resize-none"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
-                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">Cuisine</label>
-                <input
-                  type="text"
-                  value={cuisine}
-                  onChange={(e) => setCuisine(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200"
-                />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">Difficulty</label>
+                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">
+                  Cuisine Category
+                </label>
                 <select
-                  value={difficulty}
-                  onChange={(e) => setDifficulty(e.target.value as Difficulty)}
+                  value={category}
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                    setSubcategory('');
+                  }}
                   className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200 font-semibold cursor-pointer"
                 >
-                  <option value="Easy">Easy</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Hard">Hard</option>
+                  {RECIPE_CATEGORIES.map((cat) => (
+                    <option key={cat.id} value={cat.label}>
+                      {cat.emoji} {cat.label}
+                    </option>
+                  ))}
                 </select>
               </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">
+                  {category === 'Indian Cuisine'
+                    ? 'State / UT (authentic regional)'
+                    : 'Regional / Style'}
+                </label>
+                <select
+                  value={subcategory}
+                  onChange={(e) => setSubcategory(e.target.value)}
+                  disabled={subcategoryOptions.length === 0}
+                  className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200 font-semibold cursor-pointer disabled:opacity-50"
+                >
+                  <option value="">— Optional —</option>
+                  {subcategoryOptions.map((sub) => (
+                    <option key={sub} value={sub}>
+                      {sub}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">Difficulty</label>
+              <select
+                value={difficulty}
+                onChange={(e) => setDifficulty(e.target.value as Difficulty)}
+                className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200 font-semibold cursor-pointer"
+              >
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
             </div>
 
             <div className="grid grid-cols-3 gap-3">
@@ -467,39 +480,30 @@ export const RecipeBuilderModal: React.FC<RecipeBuilderModalProps> = ({
           </div>
         )}
 
-        {/* Modal Footer Controls */}
-        <div className="flex justify-between items-center border-t border-slate-900 pt-4 mt-6">
+        </ScrollArea>
+
+        <DialogFooter className="gap-2 border-t p-4 sm:justify-between">
           {step > 1 ? (
-            <button
-              onClick={() => setStep(step - 1)}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-850 hover:bg-slate-900 text-xs font-bold text-slate-300 transition-all cursor-pointer"
-            >
-              <ArrowLeft size={14} />
-              <span>Back</span>
-            </button>
+            <Button variant="outline" onClick={() => setStep(step - 1)}>
+              <ArrowLeft className="size-4" />
+              Back
+            </Button>
           ) : (
             <div />
           )}
-
           {step < 4 ? (
-            <button
-              onClick={() => setStep(step + 1)}
-              className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-400 hover:to-emerald-500 text-slate-950 font-black text-xs transition-all shadow-md shadow-theme-glow cursor-pointer"
-            >
-              <span>Next</span>
-              <ArrowRight size={14} />
-            </button>
+            <Button onClick={() => setStep(step + 1)}>
+              Next
+              <ArrowRight className="size-4" />
+            </Button>
           ) : (
-            <button
-              onClick={handleSubmit}
-              className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-400 hover:to-emerald-500 text-slate-950 font-black text-xs transition-all shadow-md shadow-theme-glow cursor-pointer"
-            >
-              <Save size={14} />
-              <span>Save Recipe</span>
-            </button>
+            <Button onClick={handleSubmit}>
+              <Save className="size-4" />
+              Save recipe
+            </Button>
           )}
-        </div>
-      </div>
-    </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
-};
+}
