@@ -28,6 +28,7 @@ const seeds: IndianRecipeSeed[] = [
     calories: 480,
     rating: 4.7,
     macros: { protein: 34, carbs: 18, fat: 28 },
+    videoUrl: 'https://www.youtube.com/watch?v=gzERGJG5tjc',
     ingredients: [
       { name: 'Chicken', amount: 750, unit: 'g', department: 'Meat' },
       { name: 'Gongura Leaves', amount: 2, unit: 'cups', department: 'Produce' },
@@ -83,6 +84,7 @@ const seeds: IndianRecipeSeed[] = [
     difficulty: 'Easy',
     calories: 320,
     rating: 4.6,
+    videoUrl: 'https://www.youtube.com/watch?v=dxVTiOBL6XA',
     ingredients: [
       { name: 'Rohu or Catfish Fillets', amount: 600, unit: 'g', department: 'Seafood' },
       { name: 'Roma Tomatoes', amount: 3, unit: 'pcs', department: 'Produce' },
@@ -110,6 +112,7 @@ const seeds: IndianRecipeSeed[] = [
     difficulty: 'Hard',
     calories: 420,
     rating: 4.8,
+    videoUrl: 'https://www.youtube.com/watch?v=dVD5_Pcpc1E',
     ingredients: [
       { name: 'Whole Wheat Flour', amount: 2, unit: 'cups', department: 'Pantry' },
       { name: 'Sattu (Roasted Gram Flour)', amount: 1, unit: 'cup', department: 'Pantry' },
@@ -165,6 +168,7 @@ const seeds: IndianRecipeSeed[] = [
     difficulty: 'Medium',
     calories: 380,
     rating: 4.8,
+    videoUrl: 'https://www.youtube.com/watch?v=2I0sZ6fCraI',
     ingredients: [
       { name: 'Kingfish or Pomfret', amount: 600, unit: 'g', department: 'Seafood' },
       { name: 'Coconut Milk', amount: 1, unit: 'can', department: 'Pantry' },
@@ -192,6 +196,7 @@ const seeds: IndianRecipeSeed[] = [
     difficulty: 'Hard',
     calories: 340,
     rating: 4.7,
+    videoUrl: 'https://www.youtube.com/watch?v=76WP69qtDi8',
     ingredients: [
       { name: 'Purple Yam', amount: 200, unit: 'g', department: 'Produce' },
       { name: 'Baby Eggplant', amount: 6, unit: 'pcs', department: 'Produce' },
@@ -274,6 +279,7 @@ const seeds: IndianRecipeSeed[] = [
     difficulty: 'Medium',
     calories: 410,
     rating: 4.5,
+    videoUrl: 'https://www.youtube.com/watch?v=t9F2mnbJMKY',
     ingredients: [
       { name: 'Rice', amount: 1, unit: 'cup', department: 'Pantry' },
       { name: 'Urad Dal', amount: 0.5, unit: 'cup', department: 'Pantry' },
@@ -301,6 +307,7 @@ const seeds: IndianRecipeSeed[] = [
     difficulty: 'Medium',
     calories: 430,
     rating: 4.8,
+    videoUrl: 'https://www.youtube.com/watch?v=VEArdyBWvdw',
     ingredients: [
       { name: 'Rice', amount: 1, unit: 'cup', department: 'Pantry' },
       { name: 'Toor Dal', amount: 0.5, unit: 'cup', department: 'Pantry' },
@@ -328,6 +335,7 @@ const seeds: IndianRecipeSeed[] = [
     difficulty: 'Medium',
     calories: 360,
     rating: 4.9,
+    videoUrl: 'https://www.youtube.com/watch?v=7CeoPFQoHK0',
     ingredients: [
       { name: 'Rice Flour', amount: 2, unit: 'cups', department: 'Pantry' },
       { name: 'Coconut Milk', amount: 1, unit: 'can', department: 'Pantry' },
@@ -355,6 +363,7 @@ const seeds: IndianRecipeSeed[] = [
     difficulty: 'Easy',
     calories: 380,
     rating: 4.7,
+    videoUrl: 'https://www.youtube.com/watch?v=bte_ym2K17A',
     ingredients: [
       { name: 'Thick Poha', amount: 2, unit: 'cups', department: 'Pantry' },
       { name: 'Onions', amount: 1, unit: 'large', department: 'Produce' },
@@ -382,6 +391,7 @@ const seeds: IndianRecipeSeed[] = [
     difficulty: 'Medium',
     calories: 440,
     rating: 4.9,
+    videoUrl: 'https://www.youtube.com/watch?v=WO0iCCzsyHU',
     ingredients: [
       { name: 'Potatoes (Boiled)', amount: 4, unit: 'large', department: 'Produce' },
       { name: 'Besan', amount: 1, unit: 'cup', department: 'Pantry' },
@@ -541,6 +551,7 @@ const seeds: IndianRecipeSeed[] = [
     calories: 560,
     rating: 4.9,
     macros: { protein: 28, carbs: 52, fat: 26 },
+    videoUrl: 'https://www.youtube.com/watch?v=iyiVXbtaHYY',
     ingredients: [
       { name: 'Basmati Rice', amount: 3, unit: 'cups', department: 'Pantry' },
       { name: 'Mutton or Chicken', amount: 1, unit: 'kg', department: 'Meat' },
@@ -569,6 +580,7 @@ const seeds: IndianRecipeSeed[] = [
     difficulty: 'Medium',
     calories: 380,
     rating: 4.8,
+    videoUrl: 'https://www.youtube.com/watch?v=fFiOpIlwgkQ',
     ingredients: [
       { name: 'All-Purpose Flour', amount: 2, unit: 'cups', department: 'Pantry' },
       { name: 'Ground Chicken', amount: 400, unit: 'g', department: 'Meat' },
@@ -623,6 +635,7 @@ const seeds: IndianRecipeSeed[] = [
     calories: 420,
     rating: 4.9,
     macros: { protein: 26, carbs: 8, fat: 32 },
+    videoUrl: 'https://www.youtube.com/watch?v=yMEhhmqYYZM',
     ingredients: [
       { name: 'Minced Lamb', amount: 500, unit: 'g', department: 'Meat' },
       { name: 'Raw Papaya Paste', amount: 2, unit: 'tbsp', department: 'Produce' },
@@ -677,6 +690,7 @@ const seeds: IndianRecipeSeed[] = [
     calories: 520,
     rating: 4.9,
     macros: { protein: 30, carbs: 14, fat: 38 },
+    videoUrl: 'https://www.youtube.com/watch?v=Ac5-0MIMwjI',
     ingredients: [
       { name: 'Mutton', amount: 1, unit: 'kg', department: 'Meat' },
       { name: 'Onions (sliced)', amount: 4, unit: 'large', department: 'Produce' },
@@ -704,6 +718,7 @@ const seeds: IndianRecipeSeed[] = [
     difficulty: 'Medium',
     calories: 520,
     rating: 4.8,
+    videoUrl: 'https://www.youtube.com/watch?v=aKSbKQOgTKQ',
     ingredients: [
       { name: 'Chickpeas (soaked)', amount: 2, unit: 'cups', department: 'Pantry' },
       { name: 'Tea Bags (for color)', amount: 2, unit: 'pcs', department: 'Pantry' },
@@ -732,6 +747,7 @@ const seeds: IndianRecipeSeed[] = [
     calories: 490,
     rating: 4.9,
     macros: { protein: 32, carbs: 10, fat: 36 },
+    videoUrl: 'https://www.youtube.com/watch?v=XVgZBsuNU60',
     ingredients: [
       { name: 'Lamb', amount: 1, unit: 'kg', department: 'Meat' },
       { name: 'Kashmiri Red Chili', amount: 2, unit: 'tbsp', department: 'Pantry' },

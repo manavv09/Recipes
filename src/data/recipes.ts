@@ -18,7 +18,7 @@ const baseRecipes: Recipe[] = [
     calories: 450,
     rating: 4.8,
     macros: { protein: 34, carbs: 5, fat: 32 },
-    videoUrl: 'https://www.youtube.com/embed/Y-9k9S7m9y0',
+    videoUrl: 'https://www.youtube.com/watch?v=mxa-4hN1-qM',
     ingredients: [
       { name: 'Salmon Fillets', amount: 4, unit: 'pcs', department: 'Seafood' },
       { name: 'Olive Oil', amount: 1, unit: 'tbsp', department: 'Pantry' },
@@ -55,7 +55,7 @@ const baseRecipes: Recipe[] = [
     calories: 320,
     rating: 4.5,
     macros: { protein: 18, carbs: 15, fat: 20 },
-    videoUrl: 'https://www.youtube.com/embed/5T56e_e88Ew',
+    videoUrl: 'https://www.youtube.com/watch?v=isLl3m_JUx4',
     ingredients: [
       { name: 'Extra Firm Tofu', amount: 1, unit: 'block', department: 'Produce' },
       { name: 'Garlic Cloves', amount: 4, unit: 'pcs', department: 'Produce' },
@@ -94,7 +94,7 @@ const baseRecipes: Recipe[] = [
     calories: 510,
     rating: 4.7,
     macros: { protein: 11, carbs: 68, fat: 22 },
-    videoUrl: 'https://www.youtube.com/embed/n30D-Yc1iig',
+    videoUrl: 'https://www.youtube.com/watch?v=oj0gzO1STdg',
     ingredients: [
       { name: 'Arborio Rice', amount: 1.5, unit: 'cups', department: 'Pantry' },
       { name: 'Mixed Mushrooms', amount: 400, unit: 'g', department: 'Produce' },
@@ -131,7 +131,7 @@ const baseRecipes: Recipe[] = [
     calories: 380,
     rating: 4.4,
     macros: { protein: 12, carbs: 58, fat: 11 },
-    videoUrl: 'https://www.youtube.com/embed/Q3_V5Q8sSGs',
+    videoUrl: 'https://www.youtube.com/watch?v=oLKmp9_Mxsc',
     ingredients: [
       { name: 'Sweet Potatoes (Diced)', amount: 2, unit: 'large', department: 'Produce' },
       { name: 'Canned Black Beans (Rinsed)', amount: 1, unit: 'can', department: 'Pantry' },
@@ -166,7 +166,7 @@ const baseRecipes: Recipe[] = [
     calories: 410,
     rating: 4.9,
     macros: { protein: 42, carbs: 8, fat: 22 },
-    videoUrl: 'https://www.youtube.com/embed/7V-w754d92E',
+    videoUrl: 'https://www.youtube.com/watch?v=8wsVJw6O3P8',
     ingredients: [
       { name: 'Chicken Breasts', amount: 4, unit: 'pcs', department: 'Meat' },
       { name: 'Greek Yogurt', amount: 0.75, unit: 'cups', department: 'Dairy' },
@@ -200,7 +200,7 @@ const baseRecipes: Recipe[] = [
     calories: 360,
     rating: 4.6,
     macros: { protein: 10, carbs: 52, fat: 12 },
-    videoUrl: 'https://www.youtube.com/embed/hJ8yHj95v64',
+    videoUrl: 'https://www.youtube.com/watch?v=ZW84Fr_rYq4',
     ingredients: [
       { name: 'All-Purpose Flour', amount: 1, unit: 'cups', department: 'Pantry' },
       { name: 'Matcha Powder', amount: 1.5, unit: 'tbsp', department: 'Pantry' },
@@ -235,7 +235,7 @@ const baseRecipes: Recipe[] = [
     calories: 520,
     rating: 4.9,
     macros: { protein: 32, carbs: 28, fat: 34 },
-    videoUrl: 'https://www.youtube.com/embed/a03U45jFtDs',
+    videoUrl: 'https://www.youtube.com/watch?v=h4IwrvuN9cQ',
     ingredients: [
       { name: 'Chicken Thighs (Boneless)', amount: 600, unit: 'g', department: 'Meat' },
       { name: 'Greek Yogurt', amount: 0.5, unit: 'cups', department: 'Dairy' },
@@ -271,7 +271,7 @@ const baseRecipes: Recipe[] = [
     calories: 440,
     rating: 4.7,
     macros: { protein: 38, carbs: 12, fat: 26 },
-    videoUrl: 'https://www.youtube.com/embed/0H8-_6WadUQ',
+    videoUrl: 'https://www.youtube.com/watch?v=QOlO9nIZ-sI',
     ingredients: [
       { name: 'Chicken Pieces', amount: 800, unit: 'g', department: 'Meat' },
       { name: 'Black Peppercorns', amount: 2, unit: 'tbsp', department: 'Pantry' },
@@ -307,7 +307,7 @@ const baseRecipes: Recipe[] = [
     calories: 580,
     rating: 4.6,
     macros: { protein: 18, carbs: 72, fat: 24 },
-    videoUrl: 'https://www.youtube.com/embed/8WBJ4K0Gj8E',
+    videoUrl: 'https://www.youtube.com/watch?v=yOqx2H5vVWM',
     ingredients: [
       { name: 'Whole Wheat Flour', amount: 2, unit: 'cups', department: 'Pantry' },
       { name: 'Mixed Lentils (Panchmel)', amount: 1.5, unit: 'cups', department: 'Pantry' },
@@ -342,7 +342,7 @@ const baseRecipes: Recipe[] = [
     calories: 490,
     rating: 4.8,
     macros: { protein: 36, carbs: 14, fat: 28 },
-    videoUrl: 'https://www.youtube.com/embed/8o-D0qmt6wY',
+    videoUrl: 'https://www.youtube.com/watch?v=VP1uTgikarU',
     ingredients: [
       { name: 'Chicken Leg Quarters', amount: 6, unit: 'pcs', department: 'Meat' },
       { name: 'Bacon Lardons', amount: 150, unit: 'g', department: 'Meat' },
@@ -378,7 +378,7 @@ const baseRecipes: Recipe[] = [
     calories: 220,
     rating: 4.5,
     macros: { protein: 6, carbs: 24, fat: 12 },
-    videoUrl: 'https://www.youtube.com/embed/BFdQUU5Y0fU',
+    videoUrl: 'https://www.youtube.com/watch?v=roCX0AfBseQ',
     ingredients: [
       { name: 'Zucchini', amount: 2, unit: 'pcs', department: 'Produce' },
       { name: 'Yellow Squash', amount: 2, unit: 'pcs', department: 'Produce' },
@@ -414,7 +414,7 @@ const baseRecipes: Recipe[] = [
     calories: 420,
     rating: 4.8,
     macros: { protein: 45, carbs: 38, fat: 12 },
-    videoUrl: 'https://www.youtube.com/embed/3XyZ1bQZ3xY',
+    videoUrl: 'https://www.youtube.com/watch?v=ZJe3yL7NHdA',
     ingredients: [
       { name: 'Chicken Breast', amount: 1000, unit: 'g', department: 'Meat' },
       { name: 'Quinoa (Dry)', amount: 2, unit: 'cups', department: 'Pantry' },
@@ -450,7 +450,7 @@ const baseRecipes: Recipe[] = [
     calories: 480,
     rating: 4.7,
     macros: { protein: 18, carbs: 62, fat: 18 },
-    videoUrl: 'https://www.youtube.com/embed/3AAdKl1bN28',
+    videoUrl: 'https://www.youtube.com/watch?v=P6QWoOQMvE8',
     ingredients: [
       { name: 'Spaghetti', amount: 200, unit: 'g', department: 'Pantry' },
       { name: 'Pecorino Romano (Grated)', amount: 1, unit: 'cups', department: 'Dairy' },
@@ -480,7 +480,7 @@ const baseRecipes: Recipe[] = [
     calories: 285,
     rating: 4.6,
     macros: { protein: 38, carbs: 10, fat: 10 },
-    videoUrl: 'https://www.youtube.com/embed/7V-w754d92E',
+    videoUrl: 'https://www.youtube.com/watch?v=v1VUg6r4yFA',
     ingredients: [
       { name: 'Chicken Breast', amount: 2, unit: 'pcs', department: 'Meat' },
       { name: 'Mixed Greens', amount: 4, unit: 'cups', department: 'Produce' },
