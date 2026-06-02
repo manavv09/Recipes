@@ -1,6 +1,6 @@
 import type { Recipe } from '@/types';
 import { getRecipeCategoryBreadcrumb } from '@/data/categories';
-import { hasRecipeVideo } from '@/utils/youtube';
+import { hasRecipeVideo, toYouTubeWatchUrl } from '@/utils/youtube';
 import {
   Clock,
   Flame,
@@ -144,8 +144,22 @@ export function RecipeCard({
       <CardFooter className="gap-2 border-t pt-4">
         <Button variant="outline" className="flex-1" size="sm" onClick={() => onViewDetails(recipe)}>
           <Eye className="size-3.5" />
-          {showVideo ? 'Watch' : 'Details'}
+          Details
         </Button>
+        {showVideo && (
+          <Button
+            variant="outline"
+            size="icon"
+            className="size-9 shrink-0 text-red-500 border-red-200/50 hover:bg-red-50 dark:border-red-950/50 dark:hover:bg-red-950/20 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open(toYouTubeWatchUrl(recipe.videoUrl), '_blank', 'noopener,noreferrer');
+            }}
+            title="Watch video tutorial on YouTube"
+          >
+            <Film className="size-4" />
+          </Button>
+        )}
         <Button className="flex-1" size="sm" onClick={() => onAddToPlan(recipe)}>
           <Plus className="size-3.5" />
           Schedule

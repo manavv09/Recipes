@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import type { Recipe } from '@/types';
 import { getRecipeCategoryBreadcrumb } from '@/data/categories';
 import { scaleAmount, formatQuantity } from '@/utils/helpers';
-import { hasRecipeVideo, toYouTubeEmbedUrl } from '@/utils/youtube';
+import { hasRecipeVideo, toYouTubeWatchUrl, getYouTubeThumbnailUrl } from '@/utils/youtube';
 import { Users, Clock, Flame, Check, Calendar, Play, Star, Dumbbell, Heart, Film, Minus, Plus, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -118,27 +118,30 @@ export function RecipeDetailModal({
             </div>
 
             {hasRecipeVideo(recipe.videoUrl) && (
-              <div className="space-y-2 rounded-lg border p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Film className="text-primary size-4" />
-                    <span className="text-sm font-medium">YouTube tutorial</span>
-                  </div>
-                  <Button variant="outline" size="sm" onClick={() => setShowVideo(!showVideo)}>
-                    <Play className="size-3.5" />
-                    {showVideo ? 'Hide' : 'Show'}
-                  </Button>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 px-1">
+                  <Film className="text-primary size-4" />
+                  <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Video tutorial</span>
                 </div>
-                {showVideo && recipe.videoUrl && (
-                  <div className="video-tutorial-container">
-                    <iframe
-                      src={toYouTubeEmbedUrl(recipe.videoUrl)}
-                      title={`${recipe.title} tutorial`}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
+                <button
+                  type="button"
+                  onClick={() => window.open(toYouTubeWatchUrl(recipe.videoUrl), '_blank', 'noopener,noreferrer')}
+                  className="group relative block w-full aspect-video rounded-xl overflow-hidden border border-border/80 bg-muted cursor-pointer transition-transform duration-300 active:scale-[0.99] hover:shadow-md"
+                >
+                  <img
+                    src={getYouTubeThumbnailUrl(recipe.videoUrl) || ''}
+                    alt={`${recipe.title} video tutorial`}
+                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center transition-colors duration-300 group-hover:bg-black/30" />
+                  <div className="absolute size-14 rounded-full bg-red-600 flex items-center justify-center text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:bg-red-500 ring-4 ring-white/10">
+                    <Play className="size-6 fill-current ml-0.5" />
                   </div>
-                )}
+                  <div className="absolute bottom-3 left-3 bg-black/60 text-white text-[10px] font-semibold px-2 py-0.5 rounded-md backdrop-blur-xs flex items-center gap-1.5">
+                    <Film className="size-3 text-red-500" />
+                    Open in YouTube
+                  </div>
+                </button>
               </div>
             )}
 
