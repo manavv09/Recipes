@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { Recipe } from '@/types';
 import { getRecipeCategoryBreadcrumb } from '@/data/categories';
-import { DAYS } from './WeeklyPlanner';
+import { DAYS } from '@/utils/constants';
 import { Calendar, Users, Coffee, Utensils, Moon, Minus, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {

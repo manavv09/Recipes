@@ -6,7 +6,7 @@ import { compileShoppingList } from './utils/helpers';
 import { toYouTubeEmbedUrl } from './utils/youtube';
 import { getRecipeImageUrl } from './utils/recipeImages';
 import { normalizeIndianSubcategory } from './data/indianStates';
-import { Sidebar } from './components/Sidebar';
+import { Navbar } from './components/Navbar';
 import { DashboardOverview } from './components/DashboardOverview';
 import { RecipeExplorer } from './components/RecipeExplorer';
 import { WeeklyPlanner } from './components/WeeklyPlanner';
@@ -15,12 +15,8 @@ import { ShoppingList } from './components/ShoppingList';
 import { RecipeDetailModal } from './components/RecipeDetailModal';
 import { AssignMealModal } from './components/AssignMealModal';
 import { RecipeBuilderModal } from './components/RecipeBuilderModal';
-import { Menu, UtensilsCrossed } from 'lucide-react';
 import { applyAccentTheme, type AccentTheme } from '@/lib/theme';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { DietToggle } from '@/components/DietToggle';
 import { filterRecipesByDiet, type DietPreference } from '@/utils/diet';
 import { useAuth } from '@/hooks/useAuth';
 import { useCloudSync } from '@/hooks/useCloudSync';
@@ -68,7 +64,6 @@ export default function App() {
     const saved = localStorage.getItem('recipeforge_tab');
     return (saved as any) || 'dashboard';
   });
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // 2. THEME STATES
   const [theme, setTheme] = useState<AccentTheme>(() => {
@@ -378,8 +373,8 @@ export default function App() {
   }
 
   return (
-    <div className="bg-background flex min-h-screen">
-      <Sidebar
+    <div className="bg-background min-h-screen flex flex-col">
+      <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         scheduledMealsCount={scheduledMealsCount}
@@ -389,123 +384,86 @@ export default function App() {
         setTheme={setTheme}
         dietPreference={dietPreference}
         setDietPreference={setDietPreference}
-        isOpen={mobileMenuOpen}
-        setIsOpen={setMobileMenuOpen}
         syncStatus={syncStatus}
         user={user}
         signInWithGoogle={signInWithGoogle}
         signOut={handleSignOut}
       />
 
-      <div className="flex min-w-0 flex-1 flex-col">
-        <header className="bg-background/95 sticky top-0 z-30 flex h-14 items-center justify-between border-b px-4 backdrop-blur lg:hidden">
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="icon" onClick={() => setMobileMenuOpen(true)}>
-              <Menu className="size-4" />
-            </Button>
-            <UtensilsCrossed className="text-primary size-4" />
-            <span className="text-sm font-semibold">RecipeForge</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <DietToggle
-              value={dietPreference}
-              onChange={setDietPreference}
-              compact
-              className="max-w-[280px]"
-            />
-            <Badge variant="secondary" className="capitalize">
-              {activeTab}
-            </Badge>
-            <a
-              href="https://github.com/manavv09/Recipes"
-              target="_blank"
-              rel="noreferrer"
-              className="flex size-8 items-center justify-center rounded-lg border border-border bg-secondary/35 text-muted-foreground hover:bg-secondary/80 hover:text-foreground transition-all"
-              title="View GitHub"
-            >
-              <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-                <path d="M9 18c-4.51 2-5-2-7-2" />
-              </svg>
-            </a>
-          </div>
-        </header>
+      <main className="mx-auto w-full max-w-7xl flex-1 p-4 md:p-6 lg:p-8">
+        {activeTab === 'dashboard' && (
+          <DashboardOverview
+            mealPlan={mealPlan}
+            recipes={dietFilteredRecipes}
+            allRecipesCount={allRecipes.length}
+            dietPreference={dietPreference}
+            gymGoal={gymGoal}
+            onViewRecipe={(recipe) => setActiveDetailRecipe(recipe)}
+            onAddToPlan={(recipe) =>
+              setAssignMeal({ open: true, day: null, mealType: null, recipe })
+            }
+            setActiveTab={setActiveTab}
+          />
+        )}
 
-        <main className="mx-auto w-full max-w-7xl flex-1 p-4 md:p-6 lg:p-8">
-          {activeTab === 'dashboard' && (
-            <DashboardOverview
-              mealPlan={mealPlan}
-              recipes={dietFilteredRecipes}
-              allRecipesCount={allRecipes.length}
-              dietPreference={dietPreference}
-              gymGoal={gymGoal}
-              onViewRecipe={(recipe) => setActiveDetailRecipe(recipe)}
-              onAddToPlan={(recipe) =>
-                setAssignMeal({ open: true, day: null, mealType: null, recipe })
-              }
-              setActiveTab={setActiveTab}
-            />
-          )}
+        {activeTab === 'recipes' && (
+          <RecipeExplorer
+            recipes={dietFilteredRecipes}
+            totalRecipesCount={allRecipes.length}
+            dietPreference={dietPreference}
+            favorites={favorites}
+            onViewDetails={(recipe) => setActiveDetailRecipe(recipe)}
+            onAddToPlan={(recipe) =>
+              setAssignMeal({ open: true, day: null, mealType: null, recipe })
+            }
+            onToggleFavorite={handleToggleFavorite}
+            onOpenCreateModal={() => setCreateRecipeOpen(true)}
+            onImportRecipe={handleSaveCustomRecipe}
+          />
+        )}
 
-          {activeTab === 'recipes' && (
-            <RecipeExplorer
-              recipes={dietFilteredRecipes}
-              totalRecipesCount={allRecipes.length}
-              dietPreference={dietPreference}
-              favorites={favorites}
-              onViewDetails={(recipe) => setActiveDetailRecipe(recipe)}
-              onAddToPlan={(recipe) =>
-                setAssignMeal({ open: true, day: null, mealType: null, recipe })
-              }
-              onToggleFavorite={handleToggleFavorite}
-              onOpenCreateModal={() => setCreateRecipeOpen(true)}
-              onImportRecipe={handleSaveCustomRecipe}
-            />
-          )}
+        {activeTab === 'planner' && (
+          <WeeklyPlanner
+            mealPlan={mealPlan}
+            onRemoveMeal={handleRemoveMeal}
+            onUpdateServings={handleUpdateServings}
+            onOpenAddModal={(day, mealType) =>
+              setAssignMeal({ open: true, day, mealType, recipe: null })
+            }
+            onViewRecipe={(recipe) => setActiveDetailRecipe(recipe)}
+          />
+        )}
 
-          {activeTab === 'planner' && (
-            <WeeklyPlanner
-              mealPlan={mealPlan}
-              onRemoveMeal={handleRemoveMeal}
-              onUpdateServings={handleUpdateServings}
-              onOpenAddModal={(day, mealType) =>
-                setAssignMeal({ open: true, day, mealType, recipe: null })
-              }
-              onViewRecipe={(recipe) => setActiveDetailRecipe(recipe)}
-            />
-          )}
+        {activeTab === 'gym' && (
+          <GymDietPlanner
+            gymGoal={gymGoal}
+            onSaveGoal={handleSaveGoal}
+            recipes={dietFilteredRecipes}
+            onViewRecipe={(recipe) => setActiveDetailRecipe(recipe)}
+            onAddToPlan={(recipe) =>
+              setAssignMeal({ open: true, day: null, mealType: null, recipe })
+            }
+            favorites={favorites}
+            onToggleFavorite={handleToggleFavorite}
+          />
+        )}
 
-          {activeTab === 'gym' && (
-            <GymDietPlanner
-              gymGoal={gymGoal}
-              onSaveGoal={handleSaveGoal}
-              recipes={dietFilteredRecipes}
-              onViewRecipe={(recipe) => setActiveDetailRecipe(recipe)}
-              onAddToPlan={(recipe) =>
-                setAssignMeal({ open: true, day: null, mealType: null, recipe })
-              }
-              favorites={favorites}
-              onToggleFavorite={handleToggleFavorite}
-            />
-          )}
+        {activeTab === 'shopping' && (
+          <ShoppingList
+            shoppingList={shoppingList}
+            checkedItems={checkedItems}
+            onToggleItem={handleToggleShoppingItem}
+            onClearChecked={handleClearCheckedItems}
+            onAddCustomItem={handleAddCustomShoppingItem}
+            onRemoveCustomItem={handleRemoveCustomShoppingItem}
+          />
+        )}
+      </main>
 
-          {activeTab === 'shopping' && (
-            <ShoppingList
-              shoppingList={shoppingList}
-              checkedItems={checkedItems}
-              onToggleItem={handleToggleShoppingItem}
-              onClearChecked={handleClearCheckedItems}
-              onAddCustomItem={handleAddCustomShoppingItem}
-              onRemoveCustomItem={handleRemoveCustomShoppingItem}
-            />
-          )}
-        </main>
-
-        <footer className="text-muted-foreground border-t px-4 py-6 text-center text-xs">
-          <Separator className="mb-4" />
-          <p>© {new Date().getFullYear()} RecipeForge · React, TypeScript & shadcn/ui</p>
-        </footer>
-      </div>
+      <footer className="text-muted-foreground border-t px-4 py-6 text-center text-xs">
+        <Separator className="mb-4" />
+        <p>© {new Date().getFullYear()} RecipeForge · React, TypeScript & shadcn/ui</p>
+      </footer>
 
       {/* PORTALS / MODALS INTERFACES */}
       

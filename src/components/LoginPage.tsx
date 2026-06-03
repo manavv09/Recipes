@@ -13,18 +13,18 @@ export function LoginPage({
   isLoading
 }: LoginPageProps) {
   return (
-    <div className="relative flex min-h-screen w-screen items-center justify-center overflow-hidden bg-zinc-950 font-sans text-zinc-50 select-none">
-      {/* Background Decorative Gradients */}
-      <div className="absolute top-[-20%] left-[-10%] h-[600px] w-[600px] rounded-full bg-primary/10 opacity-60 blur-[130px] animate-pulse duration-[8000ms]" />
-      <div className="absolute bottom-[-20%] right-[-10%] h-[600px] w-[600px] rounded-full bg-emerald-500/10 opacity-50 blur-[130px] animate-pulse duration-[10000ms]" />
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-y-auto overflow-x-hidden bg-zinc-950 py-8 sm:py-12 px-4 font-sans text-zinc-50 select-none">
+      {/* Background Decorative Gradients (Pulsing is disabled on mobile for performance/battery optimization) */}
+      <div className="absolute top-[-10%] left-[-10%] h-[300px] w-[300px] sm:h-[600px] sm:w-[600px] rounded-full bg-primary/10 opacity-60 blur-[80px] sm:blur-[130px] sm:animate-pulse duration-[8000ms]" />
+      <div className="absolute bottom-[-10%] right-[-10%] h-[300px] w-[300px] sm:h-[600px] sm:w-[600px] rounded-full bg-emerald-500/10 opacity-50 blur-[80px] sm:blur-[130px] sm:animate-pulse duration-[10000ms]" />
 
       {/* GitHub Repository Link - Shadcn style */}
-      <div className="absolute top-6 right-6 z-50">
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50">
         <a
           href="https://github.com/manavv09/Recipes"
           target="_blank"
           rel="noreferrer"
-          className="flex size-9 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900/40 text-zinc-400 backdrop-blur-sm transition-all hover:bg-zinc-800/80 hover:text-zinc-100"
+          className="flex size-8 sm:size-9 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900/40 text-zinc-400 backdrop-blur-sm transition-all hover:bg-zinc-800/80 hover:text-zinc-100"
           title="View GitHub Repository"
         >
           <svg
@@ -43,18 +43,18 @@ export function LoginPage({
       </div>
 
       {/* Glassmorphic Login Card */}
-      <div className="z-10 w-full max-w-[400px] p-4">
-        <div className="relative overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-8 shadow-2xl backdrop-blur-md">
+      <div className="z-10 w-full max-w-[400px] p-2 sm:p-4">
+        <div className="relative overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-6 sm:p-8 shadow-2xl backdrop-blur-md">
           {/* Top subtle highlight */}
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent" />
 
           {/* Logo Section */}
-          <div className="mb-8 flex flex-col items-center text-center">
-            <div className="flex size-14 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-[0_0_20px_rgba(var(--primary),0.3)] ring-1 ring-primary/25">
-              <UtensilsCrossed className="size-7" />
+          <div className="mb-6 sm:mb-8 flex flex-col items-center text-center">
+            <div className="flex size-12 sm:size-14 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-[0_0_20px_rgba(var(--primary),0.3)] ring-1 ring-primary/25">
+              <UtensilsCrossed className="size-6 sm:size-7" />
             </div>
-            <h1 className="mt-4 text-2xl font-bold tracking-tight text-zinc-100">RecipeForge</h1>
-            <p className="text-muted-foreground mt-1 text-sm">
+            <h1 className="mt-3 sm:mt-4 text-xl sm:text-2xl font-bold tracking-tight text-zinc-100">RecipeForge</h1>
+            <p className="text-muted-foreground mt-1 text-xs sm:text-sm">
               Precision Gym Diet & Meal Planner
             </p>
           </div>

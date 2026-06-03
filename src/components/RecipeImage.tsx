@@ -25,7 +25,7 @@ export function RecipeImage({ recipe, className, imgClassName }: RecipeImageProp
   useEffect(() => {
     setSrc(getRecipeImageUrl(recipe));
     setFailed(false);
-  }, [recipe.id, recipe.image, recipe.videoUrl, recipe.category, recipe.subcategory]);
+  }, [recipe]);
 
   if (failed) {
     return (

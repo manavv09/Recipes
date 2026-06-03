@@ -14,8 +14,8 @@ interface WeeklyPlannerProps {
   onViewRecipe: (recipe: Recipe) => void;
 }
 
-export const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-export const MEAL_TYPES = [
+import { DAYS } from '@/utils/constants';
+const MEAL_TYPES = [
   { key: 'breakfast' as const, label: 'Breakfast', icon: Coffee },
   { key: 'lunch' as const, label: 'Lunch', icon: Utensils },
   { key: 'dinner' as const, label: 'Dinner', icon: Moon }

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type { WeeklyMealPlan, Recipe, GymGoal } from '@/types';
 import { getRecipeCategoryBreadcrumb } from '@/data/categories';
 import { Flame, Dumbbell, Award, Plus, Calendar, Star, Info } from 'lucide-react';
@@ -92,13 +92,16 @@ export function DashboardOverview({
     return { calories: 14000, protein: 910, carbs: 1540, fat: 455 };
   }, [gymGoal]);
 
+  const [dayOfYear] = useState(() =>
+    Math.floor(
+      (Date.now() - new Date(new Date().getFullYear(), 0, 1).getTime()) / 86400000
+    )
+  );
+
   const featuredRecipe = useMemo(() => {
     if (!recipes.length) return null;
-    const dayOfYear = Math.floor(
-      (Date.now() - new Date(new Date().getFullYear(), 0, 1).getTime()) / 86400000
-    );
     return recipes[dayOfYear % recipes.length];
-  }, [recipes]);
+  }, [recipes, dayOfYear]);
 
   const caloriePct = Math.min(100, Math.round((weeklyStats.calories / targets.calories) * 100)) || 0;
 
