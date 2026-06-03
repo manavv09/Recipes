@@ -23,6 +23,7 @@ import { DietToggle } from '@/components/DietToggle';
 import type { DietPreference } from '@/utils/diet';
 import type { SyncStatus } from '@/hooks/useAuth';
 import type { User } from 'firebase/auth';
+import { ModeToggle } from './ModeToggle';
 
 interface NavbarProps {
   activeTab: 'dashboard' | 'recipes' | 'planner' | 'gym' | 'shopping';
@@ -30,8 +31,8 @@ interface NavbarProps {
   scheduledMealsCount: number;
   shoppingListCount: number;
   shoppingCheckedCount: number;
-  currentTheme: AccentTheme;
-  setTheme: (theme: AccentTheme) => void;
+  accentTheme: AccentTheme;
+  setAccentTheme: (theme: AccentTheme) => void;
   dietPreference: DietPreference;
   setDietPreference: (diet: DietPreference) => void;
   syncStatus: SyncStatus;
@@ -61,8 +62,8 @@ export function Navbar({
   scheduledMealsCount,
   shoppingListCount,
   shoppingCheckedCount,
-  currentTheme,
-  setTheme,
+  accentTheme,
+  setAccentTheme,
   dietPreference,
   setDietPreference,
   syncStatus,
@@ -181,10 +182,10 @@ export function Navbar({
                 key={t.id}
                 type="button"
                 title={t.label}
-                onClick={() => setTheme(t.id)}
+                onClick={() => setAccentTheme(t.id)}
                 className={cn(
                   'flex size-5 items-center justify-center rounded-full border transition-all cursor-pointer',
-                  currentTheme === t.id
+                  accentTheme === t.id
                     ? 'border-primary ring-1 ring-primary/45 scale-110'
                     : 'border-border hover:scale-115'
                 )}
@@ -192,6 +193,11 @@ export function Navbar({
                 <span className={cn('size-2.5 rounded-full', t.color)} />
               </button>
             ))}
+          </div>
+
+          {/* UI Mode Toggle (Dark/Light) */}
+          <div className="border-l border-border/80 pl-3">
+            <ModeToggle />
           </div>
 
           {/* Cloud Sync Icon (Desktop/Tablet indicator) */}
@@ -350,10 +356,10 @@ export function Navbar({
                     key={t.id}
                     type="button"
                     title={t.label}
-                    onClick={() => setTheme(t.id)}
+                    onClick={() => setAccentTheme(t.id)}
                     className={cn(
                       'flex h-9 items-center justify-center rounded-md border transition-all cursor-pointer',
-                      currentTheme === t.id
+                      accentTheme === t.id
                         ? 'border-primary bg-accent ring-2 ring-primary/30'
                         : 'border-border hover:border-muted-foreground/40'
                     )}

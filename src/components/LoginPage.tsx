@@ -13,7 +13,7 @@ export function LoginPage({
   isLoading
 }: LoginPageProps) {
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-y-auto overflow-x-hidden bg-zinc-950 py-8 sm:py-12 px-4 font-sans text-zinc-50 select-none">
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-y-auto overflow-x-hidden bg-background py-8 sm:py-12 px-4 font-sans text-foreground select-none">
       {/* Background Decorative Gradients (Pulsing is disabled on mobile for performance/battery optimization) */}
       <div className="absolute top-[-10%] left-[-10%] h-[300px] w-[300px] sm:h-[600px] sm:w-[600px] rounded-full bg-primary/10 opacity-60 blur-[80px] sm:blur-[130px] sm:animate-pulse duration-[8000ms]" />
       <div className="absolute bottom-[-10%] right-[-10%] h-[300px] w-[300px] sm:h-[600px] sm:w-[600px] rounded-full bg-emerald-500/10 opacity-50 blur-[80px] sm:blur-[130px] sm:animate-pulse duration-[10000ms]" />
@@ -24,7 +24,7 @@ export function LoginPage({
           href="https://github.com/manavv09/Recipes"
           target="_blank"
           rel="noreferrer"
-          className="flex size-8 sm:size-9 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900/40 text-zinc-400 backdrop-blur-sm transition-all hover:bg-zinc-800/80 hover:text-zinc-100"
+          className="flex size-8 sm:size-9 items-center justify-center rounded-lg border border-border bg-secondary/30 text-muted-foreground backdrop-blur-sm transition-all hover:bg-secondary hover:text-foreground"
           title="View GitHub Repository"
         >
           <svg
@@ -44,7 +44,7 @@ export function LoginPage({
 
       {/* Glassmorphic Login Card */}
       <div className="z-10 w-full max-w-[400px] p-2 sm:p-4">
-        <div className="relative overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-6 sm:p-8 shadow-2xl backdrop-blur-md">
+        <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-card/60 p-6 sm:p-8 shadow-2xl backdrop-blur-md">
           {/* Top subtle highlight */}
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent" />
 
@@ -53,7 +53,7 @@ export function LoginPage({
             <div className="flex size-12 sm:size-14 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-[0_0_20px_rgba(var(--primary),0.3)] ring-1 ring-primary/25">
               <UtensilsCrossed className="size-6 sm:size-7" />
             </div>
-            <h1 className="mt-3 sm:mt-4 text-xl sm:text-2xl font-bold tracking-tight text-zinc-100">RecipeForge</h1>
+            <h1 className="mt-3 sm:mt-4 text-xl sm:text-2xl font-bold tracking-tight text-foreground font-display">RecipeForge</h1>
             <p className="text-muted-foreground mt-1 text-xs sm:text-sm">
               Precision Gym Diet & Meal Planner
             </p>
@@ -62,7 +62,7 @@ export function LoginPage({
           {/* Actions Section */}
           <div className="space-y-4">
             {isLoading ? (
-              <div className="flex flex-col items-center justify-center py-6 text-zinc-400">
+              <div className="flex flex-col items-center justify-center py-6 text-muted-foreground">
                 <Loader2 className="size-8 animate-spin text-primary" />
                 <span className="mt-3 text-xs">Setting up workspace...</span>
               </div>
@@ -72,10 +72,10 @@ export function LoginPage({
                 <Button
                   onClick={signInWithGoogle}
                   variant="outline"
-                  className="relative flex h-11 w-full items-center justify-center gap-2.5 border-zinc-800 bg-zinc-900/60 text-sm font-medium text-zinc-200 hover:bg-zinc-800/80 hover:text-zinc-100 active:scale-[0.98] transition-all"
+                  className="relative flex h-11 w-full items-center justify-center gap-2.5 border-border bg-secondary/20 text-sm font-medium text-foreground hover:bg-secondary hover:text-foreground active:scale-[0.98] transition-all"
                 >
                   <svg
-                    className="size-4 text-zinc-200"
+                    className="size-4 text-foreground"
                     aria-hidden="true"
                     focusable="false"
                     viewBox="0 0 488 512"
@@ -91,18 +91,18 @@ export function LoginPage({
 
                 {/* Separator */}
                 <div className="relative flex py-2 items-center">
-                  <div className="flex-grow border-t border-zinc-800/80" />
-                  <span className="flex-shrink mx-4 text-[10px] uppercase tracking-wider text-zinc-500 font-semibold">
+                  <div className="flex-grow border-t border-border/80" />
+                  <span className="flex-shrink mx-4 text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
                     or
                   </span>
-                  <div className="flex-grow border-t border-zinc-800/80" />
+                  <div className="flex-grow border-t border-border/80" />
                 </div>
 
                 {/* Continue as Guest Button */}
                 <Button
                   onClick={onContinueAsGuest}
                   variant="ghost"
-                  className="h-11 w-full text-zinc-400 hover:bg-zinc-800/30 hover:text-zinc-200 active:scale-[0.98] transition-all text-xs"
+                  className="h-11 w-full text-muted-foreground hover:bg-secondary/40 hover:text-foreground active:scale-[0.98] transition-all text-xs"
                 >
                   Continue as Guest
                 </Button>
@@ -112,7 +112,7 @@ export function LoginPage({
         </div>
 
         {/* Footer info */}
-        <p className="mt-8 text-center text-xs text-zinc-600">
+        <p className="mt-8 text-center text-xs text-muted-foreground">
           Sync recipes & biometrics seamlessly across your devices.
         </p>
       </div>

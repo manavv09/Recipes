@@ -21,6 +21,7 @@ import { filterRecipesByDiet, type DietPreference } from '@/utils/diet';
 import { useAuth } from '@/hooks/useAuth';
 import { useCloudSync } from '@/hooks/useCloudSync';
 import { LoginPage } from './components/LoginPage';
+import { useTheme } from './components/ThemeProvider';
 
 interface AssignMealState {
   open: boolean;
@@ -66,7 +67,7 @@ export default function App() {
   });
 
   // 2. THEME STATES
-  const [theme, setTheme] = useState<AccentTheme>(() => {
+  const [accentTheme, setAccentTheme] = useState<AccentTheme>(() => {
     const saved = localStorage.getItem('recipeforge_theme');
     return (saved as AccentTheme) || 'teal';
   });
@@ -197,10 +198,12 @@ export default function App() {
     saveToCloud('recipeforge_tab', activeTab);
   }, [activeTab, saveToCloud]);
 
+  const { resolvedTheme } = useTheme();
+
   useEffect(() => {
-    localStorage.setItem('recipeforge_theme', theme);
-    applyAccentTheme(theme);
-  }, [theme]);
+    localStorage.setItem('recipeforge_theme', accentTheme);
+    applyAccentTheme(accentTheme, resolvedTheme === 'dark');
+  }, [accentTheme, resolvedTheme]);
 
   useEffect(() => {
     saveToCloud('recipeforge_diet', dietPreference);
@@ -380,8 +383,8 @@ export default function App() {
         scheduledMealsCount={scheduledMealsCount}
         shoppingListCount={shoppingList.length}
         shoppingCheckedCount={shoppingCheckedCount}
-        currentTheme={theme}
-        setTheme={setTheme}
+        accentTheme={accentTheme}
+        setAccentTheme={setAccentTheme}
         dietPreference={dietPreference}
         setDietPreference={setDietPreference}
         syncStatus={syncStatus}

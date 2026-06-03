@@ -162,7 +162,7 @@ export function RecipeBuilderModal({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
-                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">
+                <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider pl-1">
                   Cuisine Category
                 </label>
                 <select
@@ -171,7 +171,7 @@ export function RecipeBuilderModal({
                     setCategory(e.target.value);
                     setSubcategory('');
                   }}
-                  className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200 font-semibold cursor-pointer"
+                  className="w-full bg-background border border-border rounded-xl p-3 text-sm text-foreground font-semibold cursor-pointer"
                 >
                   {RECIPE_CATEGORIES.map((cat) => (
                     <option key={cat.id} value={cat.label}>
@@ -182,7 +182,7 @@ export function RecipeBuilderModal({
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">
+                <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider pl-1">
                   {category === 'Indian Cuisine'
                     ? 'State / UT (authentic regional)'
                     : 'Regional / Style'}
@@ -191,7 +191,7 @@ export function RecipeBuilderModal({
                   value={subcategory}
                   onChange={(e) => setSubcategory(e.target.value)}
                   disabled={subcategoryOptions.length === 0}
-                  className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200 font-semibold cursor-pointer disabled:opacity-50"
+                  className="w-full bg-background border border-border rounded-xl p-3 text-sm text-foreground font-semibold cursor-pointer disabled:opacity-50"
                 >
                   <option value="">— Optional —</option>
                   {subcategoryOptions.map((sub) => (
@@ -204,11 +204,11 @@ export function RecipeBuilderModal({
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">Difficulty</label>
+              <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider pl-1">Difficulty</label>
               <select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value as Difficulty)}
-                className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200 font-semibold cursor-pointer"
+                className="w-full bg-background border border-border rounded-xl p-3 text-sm text-foreground font-semibold cursor-pointer"
               >
                 <option value="Easy">Easy</option>
                 <option value="Medium">Medium</option>
@@ -218,47 +218,47 @@ export function RecipeBuilderModal({
 
             <div className="grid grid-cols-3 gap-3">
               <div className="flex flex-col gap-1.5">
-                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">Prep Time (min)</label>
+                <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider pl-1">Prep Time (min)</label>
                 <input
                   type="number"
                   min="1"
                   value={prepTime}
                   onChange={(e) => setPrepTime(Math.max(1, Number(e.target.value)))}
-                  className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200"
+                  className="w-full bg-background border border-border rounded-xl p-3 text-sm text-foreground"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">Cook Time (min)</label>
+                <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider pl-1">Cook Time (min)</label>
                 <input
                   type="number"
                   min="0"
                   value={cookTime}
                   onChange={(e) => setCookTime(Math.max(0, Number(e.target.value)))}
-                  className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200"
+                  className="w-full bg-background border border-border rounded-xl p-3 text-sm text-foreground"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">Servings</label>
+                <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider pl-1">Servings</label>
                 <input
                   type="number"
                   min="1"
                   value={servings}
                   onChange={(e) => setServings(Math.max(1, Number(e.target.value)))}
-                  className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200"
+                  className="w-full bg-background border border-border rounded-xl p-3 text-sm text-foreground"
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">Image URL (Optional)</label>
+              <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider pl-1">Image URL (Optional)</label>
               <input
                 type="text"
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
                 placeholder="https://..."
-                className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200"
+                className="w-full bg-background border border-border rounded-xl p-3 text-sm text-foreground"
               />
             </div>
           </div>
@@ -267,59 +267,59 @@ export function RecipeBuilderModal({
         {/* STEP 2: GYM NUTRITION & VIDEO */}
         {step === 2 && (
           <div className="space-y-4">
-            <div className="flex items-center gap-2 text-theme-primary mb-2">
+            <div className="flex items-center gap-2 text-primary mb-2">
               <Dumbbell size={16} />
               <h4 className="text-xs font-bold uppercase tracking-wider">Macros & Gym Prep Inputs</h4>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
-                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">Calories (kcal)</label>
+                <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider pl-1">Calories (kcal)</label>
                 <input
                   type="number"
                   min="0"
                   value={calories}
                   onChange={(e) => setCalories(Math.max(0, Number(e.target.value)))}
-                  className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200"
+                  className="w-full bg-background border border-border rounded-xl p-3 text-sm text-foreground"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">Protein (g)</label>
+                <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider pl-1">Protein (g)</label>
                 <input
                   type="number"
                   min="0"
                   value={protein}
                   onChange={(e) => setProtein(Math.max(0, Number(e.target.value)))}
-                  className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200"
+                  className="w-full bg-background border border-border rounded-xl p-3 text-sm text-foreground"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">Carbs (g)</label>
+                <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider pl-1">Carbs (g)</label>
                 <input
                   type="number"
                   min="0"
                   value={carbs}
                   onChange={(e) => setCarbs(Math.max(0, Number(e.target.value)))}
-                  className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200"
+                  className="w-full bg-background border border-border rounded-xl p-3 text-sm text-foreground"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1">Fat (g)</label>
+                <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider pl-1">Fat (g)</label>
                 <input
                   type="number"
                   min="0"
                   value={fat}
                   onChange={(e) => setFat(Math.max(0, Number(e.target.value)))}
-                  className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200"
+                  className="w-full bg-background border border-border rounded-xl p-3 text-sm text-foreground"
                 />
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5 pt-2 border-t border-slate-900">
-              <label className="text-micro font-bold text-slate-500 uppercase tracking-wider pl-1 flex items-center gap-1.5">
+            <div className="flex flex-col gap-1.5 pt-2 border-t border-border">
+              <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider pl-1 flex items-center gap-1.5">
                 <Play size={12} className="text-rose-500" />
                 <span>YouTube Video Tutorial Link</span>
               </label>
@@ -328,9 +328,9 @@ export function RecipeBuilderModal({
                 value={videoUrl}
                 onChange={(e) => setVideoUrl(e.target.value)}
                 placeholder="https://www.youtube.com/watch?v=..."
-                className="w-full bg-slate-900 border border-slate-850 rounded-2xl p-3 text-sm text-slate-200"
+                className="w-full bg-background border border-border rounded-xl p-3 text-sm text-foreground"
               />
-              <span className="text-[10px] text-slate-500 italic block pl-1">
+              <span className="text-[10px] text-muted-foreground italic block pl-1">
                 Link to a video guide on how to prepare this recipe.
               </span>
             </div>
@@ -341,48 +341,48 @@ export function RecipeBuilderModal({
         {step === 3 && (
           <div className="space-y-4 flex-grow flex flex-col min-h-0">
             {/* Inline Builder Inputs */}
-            <div className="bg-slate-900 border border-slate-850 p-4 rounded-2xl space-y-3">
+            <div className="bg-muted/40 border border-border p-4 rounded-2xl space-y-3">
               <div className="flex flex-col gap-1">
-                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider">Ingredient Name</label>
+                <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider">Ingredient Name</label>
                 <input
                   type="text"
                   value={ingName}
                   onChange={(e) => setIngName(e.target.value)}
                   placeholder="e.g. Skinless Chicken Breast"
-                  className="w-full bg-slate-950 border border-slate-850 rounded-xl p-2.5 text-xs text-slate-200"
+                  className="w-full bg-background border border-border rounded-xl p-2.5 text-xs text-foreground"
                 />
               </div>
 
               <div className="grid grid-cols-3 gap-2">
                 <div className="flex flex-col gap-1">
-                  <label className="text-micro font-bold text-slate-500 uppercase tracking-wider">Qty</label>
+                  <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider">Qty</label>
                   <input
                     type="number"
                     min="0.1"
                     step="any"
                     value={ingAmount}
                     onChange={(e) => setIngAmount(Number(e.target.value))}
-                    className="w-full bg-slate-950 border border-slate-850 rounded-xl p-2.5 text-xs text-slate-200"
+                    className="w-full bg-background border border-border rounded-xl p-2.5 text-xs text-foreground"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-micro font-bold text-slate-500 uppercase tracking-wider">Unit</label>
+                  <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider">Unit</label>
                   <input
                     type="text"
                     value={ingUnit}
                     onChange={(e) => setIngUnit(e.target.value)}
                     placeholder="g, pcs, tbsp"
-                    className="w-full bg-slate-950 border border-slate-850 rounded-xl p-2.5 text-xs text-slate-200"
+                    className="w-full bg-background border border-border rounded-xl p-2.5 text-xs text-foreground"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-micro font-bold text-slate-500 uppercase tracking-wider">Dept</label>
+                  <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider">Dept</label>
                   <select
                     value={ingDept}
                     onChange={(e) => setIngDept(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-850 rounded-xl p-2.5 text-xs text-slate-200 cursor-pointer"
+                    className="w-full bg-background border border-border rounded-xl p-2.5 text-xs text-foreground cursor-pointer"
                   >
                     <option value="Produce">Produce</option>
                     <option value="Meat">Meat</option>
@@ -398,7 +398,7 @@ export function RecipeBuilderModal({
               <button
                 type="button"
                 onClick={handleAddIngredient}
-                className="w-full flex items-center justify-center gap-1 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-xs font-bold text-theme-primary transition-all cursor-pointer"
+                className="w-full flex items-center justify-center gap-1 py-2 rounded-xl bg-secondary hover:bg-secondary/80 text-xs font-bold text-primary transition-all cursor-pointer"
               >
                 <Plus size={14} />
                 <span>Add Ingredient</span>
@@ -407,19 +407,19 @@ export function RecipeBuilderModal({
 
             {/* Ingredients Checklist */}
             <div className="flex-grow overflow-y-auto max-h-[220px] pr-1 space-y-2">
-              <span className="text-micro font-bold text-slate-500 uppercase tracking-wider">Added Ingredients ({ingredients.length})</span>
+              <span className="text-micro font-bold text-muted-foreground uppercase tracking-wider">Added Ingredients ({ingredients.length})</span>
               {ingredients.length === 0 ? (
-                <div className="text-slate-500 text-xs italic py-4 text-center">No ingredients added yet.</div>
+                <div className="text-muted-foreground text-xs italic py-4 text-center">No ingredients added yet.</div>
               ) : (
                 ingredients.map((ing, idx) => (
-                  <div key={idx} className="flex justify-between items-center bg-slate-905 border border-slate-850 px-3 py-2 rounded-xl text-xs">
+                  <div key={idx} className="flex justify-between items-center bg-muted/20 border border-border px-3 py-2 rounded-xl text-xs">
                     <span>
-                      <strong className="text-theme-primary">{ing.amount} {ing.unit}</strong> - {ing.name}
+                      <strong className="text-primary">{ing.amount} {ing.unit}</strong> - {ing.name}
                     </span>
                     <button
                       type="button"
                       onClick={() => handleRemoveIngredient(idx)}
-                      className="p-1 rounded bg-slate-900 text-slate-500 hover:text-rose-450 hover:bg-rose-500-10"
+                      className="p-1 rounded bg-background text-muted-foreground hover:text-destructive hover:bg-destructive/10 border border-border"
                     >
                       <Trash2 size={12} />
                     </button>
@@ -433,22 +433,22 @@ export function RecipeBuilderModal({
         {/* STEP 4: INSTRUCTIONS */}
         {step === 4 && (
           <div className="space-y-4 flex-grow flex flex-col min-h-0">
-            <div className="bg-slate-900 border border-slate-850 p-4 rounded-2xl space-y-3">
+            <div className="bg-muted/40 border border-border p-4 rounded-2xl space-y-3">
               <div className="flex flex-col gap-1">
-                <label className="text-micro font-bold text-slate-500 uppercase tracking-wider">Add Cooking Step</label>
+                <label className="text-micro font-bold text-muted-foreground uppercase tracking-wider">Add Cooking Step</label>
                 <textarea
                   value={instText}
                   onChange={(e) => setInstText(e.target.value)}
                   placeholder="e.g. Sauté the garlic in heated butter until fragrant..."
                   rows={2}
-                  className="w-full bg-slate-950 border border-slate-850 rounded-xl p-2.5 text-xs text-slate-200 resize-none"
+                  className="w-full bg-background border border-border rounded-xl p-2.5 text-xs text-foreground resize-none"
                 />
               </div>
 
               <button
                 type="button"
                 onClick={handleAddInstruction}
-                className="w-full flex items-center justify-center gap-1 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-xs font-bold text-theme-primary transition-all cursor-pointer"
+                className="w-full flex items-center justify-center gap-1 py-2 rounded-xl bg-secondary hover:bg-secondary/80 text-xs font-bold text-primary transition-all cursor-pointer"
               >
                 <Plus size={14} />
                 <span>Add Step</span>
@@ -456,20 +456,20 @@ export function RecipeBuilderModal({
             </div>
 
             <div className="flex-grow overflow-y-auto max-h-[220px] pr-1 space-y-2">
-              <span className="text-micro font-bold text-slate-500 uppercase tracking-wider">Instructions Steps ({instructions.length})</span>
+              <span className="text-micro font-bold text-muted-foreground uppercase tracking-wider">Instructions Steps ({instructions.length})</span>
               {instructions.length === 0 ? (
-                <div className="text-slate-500 text-xs italic py-4 text-center">No instruction steps added yet.</div>
+                <div className="text-muted-foreground text-xs italic py-4 text-center">No instruction steps added yet.</div>
               ) : (
                 instructions.map((stepStr, idx) => (
-                  <div key={idx} className="flex gap-2 bg-slate-905 border border-slate-850 p-3 rounded-xl text-xs items-start">
-                    <span className="w-5 h-5 rounded-lg bg-theme-glow text-theme-primary font-bold flex items-center justify-center flex-shrink-0 text-[10px]">
+                  <div key={idx} className="flex gap-2 bg-muted/20 border border-border p-3 rounded-xl text-xs items-start">
+                    <span className="w-5 h-5 rounded-lg bg-primary/10 text-primary font-bold flex items-center justify-center flex-shrink-0 text-[10px]">
                       {idx + 1}
                     </span>
-                    <span className="flex-grow leading-relaxed text-slate-300">{stepStr}</span>
+                    <span className="flex-grow leading-relaxed text-foreground/90">{stepStr}</span>
                     <button
                       type="button"
                       onClick={() => handleRemoveInstruction(idx)}
-                      className="p-1 rounded bg-slate-900 text-slate-500 hover:text-rose-450 hover:bg-rose-500-10 flex-shrink-0"
+                      className="p-1 rounded bg-background text-muted-foreground hover:text-destructive hover:bg-destructive/10 border border-border flex-shrink-0"
                     >
                       <Trash2 size={12} />
                     </button>

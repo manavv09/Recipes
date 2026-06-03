@@ -41,6 +41,17 @@ describe('applyAccentTheme', () => {
     expect(setPropertyMock).toHaveBeenCalledWith('--primary-foreground', 'oklch(0.13 0.02 180)');
   });
 
+  it('sets --primary and --primary-foreground for teal theme in light mode', () => {
+    applyAccentTheme('teal', false);
+    expect(setPropertyMock).toHaveBeenCalledWith('--primary', 'oklch(0.55 0.15 180)');
+    expect(setPropertyMock).toHaveBeenCalledWith('--primary-foreground', 'oklch(0.985 0 0)');
+  });
+
+  it('sets --primary for amber theme in light mode', () => {
+    applyAccentTheme('amber', false);
+    expect(setPropertyMock).toHaveBeenCalledWith('--primary', 'oklch(0.58 0.16 70)');
+  });
+
   it('sets --ring to the same value as --primary', () => {
     applyAccentTheme('rose');
     const primaryCall = setPropertyMock.mock.calls.find(([prop]) => prop === '--primary');
