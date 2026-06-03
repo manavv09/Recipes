@@ -10,6 +10,9 @@ import {
   signInAnonymously,
   onAuthStateChanged,
   signOut as firebaseSignOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+  linkWithPopup,
   type User
 } from 'firebase/auth';
 import { auth, isFirebaseReady } from '@/services/firebase';
@@ -20,6 +23,7 @@ export type SyncStatus = 'unconfigured' | 'connecting' | 'synced' | 'offline';
 interface UseAuthReturn {
   user: User | null;
   syncStatus: SyncStatus;
+  signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -57,6 +61,42 @@ export function useAuth(): UseAuthReturn {
     return () => unsubscribe();
   }, []);
 
+  const signInWithGoogle = async () => {
+    if (!isFirebaseReady || !auth) return;
+
+    const provider = new GoogleAuthProvider();
+    try {
+      setSyncStatus('connecting');
+      if (auth.currentUser && auth.currentUser.isAnonymous) {
+        // Upgrade the anonymous user to a Google user by linking
+        try {
+          const result = await linkWithPopup(auth.currentUser, provider);
+          setUser(result.user);
+          setSyncStatus('synced');
+          console.info('[RecipeForge] Anonymous account successfully linked to Google');
+          return;
+        } catch (linkErr: any) {
+          // If the Google account is already linked/associated with another user,
+          // we fallback to direct sign-in.
+          if (linkErr.code === 'auth/credential-already-in-use') {
+            console.info('[RecipeForge] Google account already exists, signing in directly...');
+          } else {
+            throw linkErr;
+          }
+        }
+      }
+      
+      // Direct sign-in if no anonymous user or if linking was not possible
+      const result = await signInWithPopup(auth, provider);
+      setUser(result.user);
+      setSyncStatus('synced');
+    } catch (err) {
+      console.error('[RecipeForge] Google sign-in failed:', err);
+      // Re-evaluate sync status based on whether we still have a user
+      setSyncStatus(auth.currentUser ? 'synced' : 'offline');
+    }
+  };
+
   const signOut = async () => {
     if (auth) {
       await firebaseSignOut(auth);
@@ -65,5 +105,5 @@ export function useAuth(): UseAuthReturn {
     }
   };
 
-  return { user, syncStatus, signOut };
+  return { user, syncStatus, signInWithGoogle, signOut };
 }
