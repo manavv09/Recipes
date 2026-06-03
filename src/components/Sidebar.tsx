@@ -5,7 +5,11 @@ import {
   Dumbbell,
   ShoppingBag,
   UtensilsCrossed,
-  Sparkles
+  Sparkles,
+  CloudOff,
+  Cloud,
+  Loader2,
+  WifiOff
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { AccentTheme } from '@/lib/theme';
@@ -15,6 +19,7 @@ import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { DietToggle } from '@/components/DietToggle';
 import type { DietPreference } from '@/utils/diet';
+import type { SyncStatus } from '@/hooks/useAuth';
 
 interface SidebarProps {
   activeTab: 'dashboard' | 'recipes' | 'planner' | 'gym' | 'shopping';
@@ -28,6 +33,7 @@ interface SidebarProps {
   setDietPreference: (diet: DietPreference) => void;
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
+  syncStatus: SyncStatus;
 }
 
 const themes: { id: AccentTheme; label: string; color: string }[] = [
@@ -55,6 +61,7 @@ function NavContent({
   setTheme,
   dietPreference,
   setDietPreference,
+  syncStatus,
   onNavigate
 }: Omit<SidebarProps, 'isOpen' | 'setIsOpen'> & { onNavigate?: () => void }) {
   const getBadge = (id: (typeof menuItems)[number]['id']) => {
@@ -141,6 +148,31 @@ function NavContent({
             ))}
           </div>
         </div>
+
+        {/* Sync status indicator */}
+        <Separator />
+        <div className="px-1">
+          <div
+            className={cn(
+              'flex items-center gap-2 rounded-md px-2 py-1.5 text-xs',
+              syncStatus === 'synced' && 'text-emerald-500',
+              syncStatus === 'connecting' && 'text-amber-500',
+              syncStatus === 'offline' && 'text-red-500',
+              syncStatus === 'unconfigured' && 'text-muted-foreground'
+            )}
+          >
+            {syncStatus === 'synced' && <Cloud className="size-3.5" />}
+            {syncStatus === 'connecting' && <Loader2 className="size-3.5 animate-spin" />}
+            {syncStatus === 'offline' && <WifiOff className="size-3.5" />}
+            {syncStatus === 'unconfigured' && <CloudOff className="size-3.5" />}
+            <span>
+              {syncStatus === 'synced' && 'Cloud synced'}
+              {syncStatus === 'connecting' && 'Connecting…'}
+              {syncStatus === 'offline' && 'Offline mode'}
+              {syncStatus === 'unconfigured' && 'Local only'}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -157,7 +189,8 @@ export function Sidebar({
   dietPreference,
   setDietPreference,
   isOpen,
-  setIsOpen
+  setIsOpen,
+  syncStatus
 }: SidebarProps) {
   const navProps = {
     activeTab,
@@ -168,7 +201,8 @@ export function Sidebar({
     currentTheme,
     setTheme,
     dietPreference,
-    setDietPreference
+    setDietPreference,
+    syncStatus
   };
 
   return (

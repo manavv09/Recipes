@@ -636,6 +636,368 @@ const baseRecipes: Recipe[] = [
     ]
   },
   {
+    id: 'rec-20',
+    title: 'Korean BBQ Bulgogi Bowl',
+    description:
+      'Thinly sliced marinated beef sizzled over high heat, served on jasmine rice with pickled daikon, cucumber ribbons, and sesame gochujang drizzle.',
+    image: 'https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=800&q=80',
+    prepTime: 20,
+    cookTime: 10,
+    servings: 3,
+    category: 'Asian Fusion',
+    subcategory: 'Korean',
+    tags: ['Meat', 'High-Protein', 'Korean', 'Bowl'],
+    difficulty: 'Easy',
+    calories: 490,
+    rating: 4.9,
+    macros: { protein: 38, carbs: 42, fat: 16 },
+    videoUrl: 'https://www.youtube.com/watch?v=E_OJuFcCLhA',
+    ingredients: [
+      { name: 'Ribeye or Sirloin (thinly sliced)', amount: 500, unit: 'g', department: 'Meat' },
+      { name: 'Soy Sauce', amount: 4, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Sesame Oil', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Brown Sugar', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Garlic Cloves (Minced)', amount: 4, unit: 'pcs', department: 'Produce' },
+      { name: 'Ginger (Grated)', amount: 1, unit: 'tsp', department: 'Produce' },
+      { name: 'Gochujang Paste', amount: 2, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Jasmine Rice', amount: 2, unit: 'cups', department: 'Pantry' },
+      { name: 'Cucumber (Ribboned)', amount: 1, unit: 'pcs', department: 'Produce' },
+      { name: 'Sesame Seeds', amount: 1, unit: 'tbsp', department: 'Pantry' }
+    ],
+    instructions: [
+      'Mix soy sauce, sesame oil, sugar, garlic, and ginger. Marinate beef at least 15 minutes.',
+      'Cook jasmine rice per package directions.',
+      'Whisk gochujang with a splash of sesame oil for the drizzle sauce.',
+      'Sear beef in a very hot pan or cast iron in batches, 1–2 minutes per side.',
+      'Assemble bowls: rice base, bulgogi, cucumber ribbons. Drizzle gochujang sauce and scatter sesame seeds.'
+    ]
+  },
+  {
+    id: 'rec-21',
+    title: 'Mediterranean Chickpea Stew',
+    description:
+      'Hearty one-pot stew with chickpeas, roasted red peppers, baby spinach, and preserved lemon in a smoky tomato-cumin broth.',
+    image: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80',
+    prepTime: 10,
+    cookTime: 25,
+    servings: 4,
+    category: 'Mediterranean',
+    subcategory: 'Levantine',
+    tags: ['Vegan', 'Vegetarian', 'High-Protein', 'Healthy', 'Quick'],
+    difficulty: 'Easy',
+    calories: 340,
+    rating: 4.7,
+    macros: { protein: 16, carbs: 48, fat: 9 },
+    videoUrl: 'https://www.youtube.com/watch?v=zNX_GKKOi9E',
+    ingredients: [
+      { name: 'Canned Chickpeas (Drained)', amount: 2, unit: 'cans', department: 'Pantry' },
+      { name: 'Crushed Tomatoes', amount: 1, unit: 'can', department: 'Pantry' },
+      { name: 'Roasted Red Peppers (Jarred)', amount: 1, unit: 'cups', department: 'Pantry' },
+      { name: 'Baby Spinach', amount: 4, unit: 'cups', department: 'Produce' },
+      { name: 'Onion (Diced)', amount: 1, unit: 'large', department: 'Produce' },
+      { name: 'Garlic Cloves', amount: 4, unit: 'pcs', department: 'Produce' },
+      { name: 'Cumin', amount: 2, unit: 'tsp', department: 'Pantry' },
+      { name: 'Smoked Paprika', amount: 1, unit: 'tsp', department: 'Pantry' },
+      { name: 'Preserved Lemon (Rinsed, Chopped)', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Olive Oil', amount: 2, unit: 'tbsp', department: 'Pantry' }
+    ],
+    instructions: [
+      'Sauté onion in olive oil 5 minutes until soft. Add garlic, cumin, and paprika; cook 1 minute.',
+      'Add chickpeas, crushed tomatoes, and roasted peppers. Simmer 15 minutes.',
+      'Stir in spinach and preserved lemon; wilt 2 minutes.',
+      'Adjust seasoning. Serve with crusty bread or over couscous.'
+    ]
+  },
+  {
+    id: 'rec-22',
+    title: 'Protein Overnight Oats',
+    description:
+      'High-protein no-cook breakfast: rolled oats soaked in Greek yogurt and almond milk, topped with berries, chia seeds, and almond butter.',
+    image: 'https://images.unsplash.com/photo-1570838741272-d8fcf86bb234?auto=format&fit=crop&w=800&q=80',
+    prepTime: 5,
+    cookTime: 0,
+    servings: 1,
+    category: 'Gym Diet',
+    subcategory: 'Meal Prep',
+    tags: ['Gym Diet', 'High-Protein', 'Vegetarian', 'Breakfast', 'Meal Prep', 'Quick'],
+    difficulty: 'Easy',
+    calories: 420,
+    rating: 4.8,
+    macros: { protein: 30, carbs: 48, fat: 11 },
+    videoUrl: 'https://www.youtube.com/watch?v=HGcVHVMRgUE',
+    ingredients: [
+      { name: 'Rolled Oats', amount: 0.5, unit: 'cups', department: 'Pantry' },
+      { name: 'Greek Yogurt (0% fat)', amount: 0.5, unit: 'cups', department: 'Dairy' },
+      { name: 'Almond Milk (Unsweetened)', amount: 0.25, unit: 'cups', department: 'Dairy' },
+      { name: 'Vanilla Protein Powder', amount: 1, unit: 'scoop', department: 'Pantry' },
+      { name: 'Chia Seeds', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Mixed Berries', amount: 0.5, unit: 'cups', department: 'Produce' },
+      { name: 'Almond Butter', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Honey', amount: 1, unit: 'tsp', department: 'Pantry' }
+    ],
+    instructions: [
+      'Mix oats, yogurt, almond milk, protein powder, and chia seeds in a jar.',
+      'Stir well until protein powder is dissolved.',
+      'Refrigerate overnight or at least 4 hours.',
+      'Top with berries, almond butter, and a drizzle of honey before eating.'
+    ]
+  },
+  {
+    id: 'rec-23',
+    title: 'Miso Ramen from Scratch',
+    description:
+      'Rich, umami-packed Japanese miso ramen with a cloudy tonkotsu-style broth, chashu pork, soft-boiled marinated egg, nori, and corn.',
+    image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=800&q=80',
+    prepTime: 30,
+    cookTime: 60,
+    servings: 2,
+    category: 'Asian Fusion',
+    subcategory: 'Japanese',
+    tags: ['Japanese', 'Comfort Food', 'Meat'],
+    difficulty: 'Hard',
+    calories: 620,
+    rating: 4.9,
+    macros: { protein: 36, carbs: 58, fat: 24 },
+    videoUrl: 'https://www.youtube.com/watch?v=9WXNdHrGGpk',
+    ingredients: [
+      { name: 'Pork Belly (Rolled)', amount: 300, unit: 'g', department: 'Meat' },
+      { name: 'Chicken Stock', amount: 4, unit: 'cups', department: 'Pantry' },
+      { name: 'White Miso Paste', amount: 3, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Soy Sauce', amount: 2, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Mirin', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Ramen Noodles', amount: 2, unit: 'portions', department: 'Pantry' },
+      { name: 'Eggs', amount: 2, unit: 'pcs', department: 'Dairy' },
+      { name: 'Corn Kernels', amount: 0.5, unit: 'cups', department: 'Produce' },
+      { name: 'Nori Sheets', amount: 2, unit: 'pcs', department: 'Pantry' },
+      { name: 'Green Onions (Sliced)', amount: 3, unit: 'stalks', department: 'Produce' }
+    ],
+    instructions: [
+      'Roll and tie pork belly. Sear all sides then simmer in soy sauce, mirin, and water 45 minutes.',
+      'Soft-boil eggs 6.5 minutes, cool, peel, and marinate in soy sauce overnight.',
+      'Warm chicken stock. Whisk in miso paste until dissolved — do not boil.',
+      'Cook ramen noodles per package, then divide into bowls.',
+      'Ladle hot miso broth, top with sliced chashu pork, halved marinated egg, corn, nori, and green onions.'
+    ]
+  },
+  {
+    id: 'rec-24',
+    title: 'Greek Mezze Platter',
+    description:
+      'A vibrant spread of hummus, tzatziki, kalamata olives, stuffed grape leaves (dolmades), pita, and fresh vegetable crudités.',
+    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80',
+    prepTime: 25,
+    cookTime: 0,
+    servings: 4,
+    category: 'Mediterranean',
+    subcategory: 'Greek',
+    tags: ['Vegetarian', 'Healthy', 'Greek', 'Party'],
+    difficulty: 'Easy',
+    calories: 310,
+    rating: 4.7,
+    macros: { protein: 10, carbs: 38, fat: 14 },
+    videoUrl: 'https://www.youtube.com/watch?v=r_mbn1Ys5B0',
+    ingredients: [
+      { name: 'Canned Chickpeas (Drained)', amount: 1, unit: 'can', department: 'Pantry' },
+      { name: 'Tahini', amount: 3, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Greek Yogurt (Full Fat)', amount: 1, unit: 'cups', department: 'Dairy' },
+      { name: 'Cucumber (Grated)', amount: 1, unit: 'pcs', department: 'Produce' },
+      { name: 'Fresh Dill', amount: 2, unit: 'tbsp', department: 'Produce' },
+      { name: 'Kalamata Olives', amount: 0.75, unit: 'cups', department: 'Pantry' },
+      { name: 'Canned Dolmades (Stuffed Vine Leaves)', amount: 1, unit: 'can', department: 'Pantry' },
+      { name: 'Pita Bread', amount: 4, unit: 'pcs', department: 'Bakery' },
+      { name: 'Lemon Juice', amount: 2, unit: 'tbsp', department: 'Produce' },
+      { name: 'Garlic Cloves', amount: 2, unit: 'pcs', department: 'Produce' }
+    ],
+    instructions: [
+      'Blend chickpeas, tahini, lemon juice, garlic, and olive oil until smooth for hummus.',
+      'Grate cucumber, squeeze dry, mix with yogurt, dill, garlic, and salt for tzatziki.',
+      'Warm pita bread directly on a gas flame or in a dry pan until puffy.',
+      'Arrange hummus, tzatziki, olives, dolmades, and vegetables on a large board.',
+      'Serve with warm pita and a drizzle of olive oil over the hummus.'
+    ]
+  },
+  {
+    id: 'rec-25',
+    title: 'Spicy Mexican Birria Tacos',
+    description:
+      'Slow-braised guajillo-ancho chile beef birria in corn tortillas, dipped in the rich consommé and seared crispy, topped with onion and cilantro.',
+    image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=800&q=80',
+    prepTime: 30,
+    cookTime: 180,
+    servings: 6,
+    category: 'Mexican',
+    subcategory: 'Tacos',
+    tags: ['Meat', 'Mexican', 'Comfort Food', 'Spicy'],
+    difficulty: 'Hard',
+    calories: 520,
+    rating: 4.9,
+    macros: { protein: 40, carbs: 30, fat: 26 },
+    videoUrl: 'https://www.youtube.com/watch?v=PtoSh_H5Gxs',
+    ingredients: [
+      { name: 'Beef Chuck Roast', amount: 1200, unit: 'g', department: 'Meat' },
+      { name: 'Dried Guajillo Chiles', amount: 6, unit: 'pcs', department: 'Pantry' },
+      { name: 'Dried Ancho Chiles', amount: 3, unit: 'pcs', department: 'Pantry' },
+      { name: 'Beef Broth', amount: 3, unit: 'cups', department: 'Pantry' },
+      { name: 'Canned Tomatoes', amount: 1, unit: 'can', department: 'Pantry' },
+      { name: 'Garlic Cloves', amount: 6, unit: 'pcs', department: 'Produce' },
+      { name: 'Corn Tortillas', amount: 18, unit: 'pcs', department: 'Bakery' },
+      { name: 'White Onion (Diced)', amount: 1, unit: 'large', department: 'Produce' },
+      { name: 'Cilantro (Chopped)', amount: 0.5, unit: 'cups', department: 'Produce' },
+      { name: 'Mozzarella (Shredded)', amount: 200, unit: 'g', department: 'Dairy' }
+    ],
+    instructions: [
+      'Toast dried chiles in a dry pan 30 seconds. Soak in hot water 20 minutes, then blend with tomatoes, garlic, and 1 cup broth.',
+      'Sear beef chuck all over. Place in a Dutch oven, pour chile sauce and remaining broth over.',
+      'Braise covered at 325°F (165°C) for 3 hours until falling apart. Shred beef and reserve consommé.',
+      'Dip tortillas in hot consommé, place on a hot griddle, add cheese and shredded birria, fold and sear until crispy.',
+      'Serve with consommé for dipping, topped with onion and cilantro.'
+    ]
+  },
+  {
+    id: 'rec-26',
+    title: 'Post-Workout Recovery Smoothie Bowl',
+    description:
+      'Thick blended acai and banana base loaded with granola, fresh kiwi, mango, coconut flakes, and a honey drizzle for muscle recovery.',
+    image: 'https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=800&q=80',
+    prepTime: 10,
+    cookTime: 0,
+    servings: 1,
+    category: 'Gym Diet',
+    subcategory: 'Meal Prep',
+    tags: ['Gym Diet', 'Vegan', 'Vegetarian', 'Breakfast', 'High-Protein', 'Quick'],
+    difficulty: 'Easy',
+    calories: 480,
+    rating: 4.7,
+    macros: { protein: 24, carbs: 72, fat: 10 },
+    videoUrl: 'https://www.youtube.com/watch?v=3k4L8Rp2B1k',
+    ingredients: [
+      { name: 'Frozen Acai Puree (Unsweetened)', amount: 100, unit: 'g', department: 'Produce' },
+      { name: 'Frozen Banana', amount: 1, unit: 'large', department: 'Produce' },
+      { name: 'Vanilla Protein Powder', amount: 1, unit: 'scoop', department: 'Pantry' },
+      { name: 'Almond Milk', amount: 0.25, unit: 'cups', department: 'Dairy' },
+      { name: 'Granola', amount: 0.5, unit: 'cups', department: 'Pantry' },
+      { name: 'Fresh Kiwi (Sliced)', amount: 1, unit: 'pcs', department: 'Produce' },
+      { name: 'Fresh Mango (Cubed)', amount: 0.5, unit: 'cups', department: 'Produce' },
+      { name: 'Coconut Flakes (Toasted)', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Honey', amount: 1, unit: 'tsp', department: 'Pantry' }
+    ],
+    instructions: [
+      'Blend frozen acai, banana, protein powder, and almond milk until thick and smooth. Add minimal liquid — it should be thick enough to eat with a spoon.',
+      'Pour into a bowl and smooth the top.',
+      'Arrange granola, kiwi, mango, and coconut flakes on top.',
+      'Drizzle with honey and serve immediately.'
+    ]
+  },
+  {
+    id: 'rec-27',
+    title: 'Shakshuka (Eggs in Spiced Tomato Sauce)',
+    description:
+      'North African-style eggs poached directly in a smoky, spiced tomato and red pepper sauce, topped with crumbled feta and fresh herbs.',
+    image: 'https://images.unsplash.com/photo-1590304832540-c4dc111a5e16?auto=format&fit=crop&w=800&q=80',
+    prepTime: 10,
+    cookTime: 20,
+    servings: 2,
+    category: 'Mediterranean',
+    subcategory: 'Levantine',
+    tags: ['Vegetarian', 'Healthy', 'Breakfast', 'High-Protein', 'Quick'],
+    difficulty: 'Easy',
+    calories: 340,
+    rating: 4.8,
+    macros: { protein: 18, carbs: 26, fat: 18 },
+    videoUrl: 'https://www.youtube.com/watch?v=2HyFEGnwJqU',
+    ingredients: [
+      { name: 'Eggs', amount: 4, unit: 'pcs', department: 'Dairy' },
+      { name: 'Crushed Tomatoes', amount: 1, unit: 'can', department: 'Pantry' },
+      { name: 'Red Bell Pepper (Diced)', amount: 1, unit: 'pcs', department: 'Produce' },
+      { name: 'Onion (Diced)', amount: 1, unit: 'medium', department: 'Produce' },
+      { name: 'Garlic Cloves', amount: 3, unit: 'pcs', department: 'Produce' },
+      { name: 'Cumin', amount: 1, unit: 'tsp', department: 'Pantry' },
+      { name: 'Smoked Paprika', amount: 1, unit: 'tsp', department: 'Pantry' },
+      { name: 'Cayenne Pepper', amount: 0.25, unit: 'tsp', department: 'Pantry' },
+      { name: 'Feta Cheese (Crumbled)', amount: 50, unit: 'g', department: 'Dairy' },
+      { name: 'Fresh Parsley (Chopped)', amount: 0.25, unit: 'cups', department: 'Produce' }
+    ],
+    instructions: [
+      'Sauté onion and bell pepper in olive oil until soft, about 7 minutes. Add garlic and spices, cook 1 minute.',
+      'Pour in crushed tomatoes, season with salt, and simmer 10 minutes until sauce thickens.',
+      'Make 4 wells in the sauce and crack an egg into each.',
+      'Cover and cook 5–7 minutes for runny yolks, longer for set.',
+      'Top with crumbled feta and fresh parsley. Serve with crusty bread.'
+    ]
+  },
+  {
+    id: 'rec-28',
+    title: 'Teriyaki Salmon Rice Bowl',
+    description:
+      'Glazed salmon fillets with homemade teriyaki sauce over steamed rice with edamame, avocado, and pickled ginger.',
+    image: 'https://images.unsplash.com/photo-1563612116625-3012372fccce?auto=format&fit=crop&w=800&q=80',
+    prepTime: 10,
+    cookTime: 15,
+    servings: 2,
+    category: 'Gym Diet',
+    subcategory: 'High Protein',
+    tags: ['Seafood', 'High-Protein', 'Healthy', 'Gym Diet', 'Gluten-Free'],
+    difficulty: 'Easy',
+    calories: 510,
+    rating: 4.8,
+    macros: { protein: 44, carbs: 42, fat: 18 },
+    videoUrl: 'https://www.youtube.com/watch?v=ZXBqpbOGRSs',
+    ingredients: [
+      { name: 'Salmon Fillets', amount: 2, unit: 'pcs', department: 'Seafood' },
+      { name: 'Soy Sauce', amount: 3, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Mirin', amount: 2, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Honey', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Jasmine Rice', amount: 1.5, unit: 'cups', department: 'Pantry' },
+      { name: 'Frozen Edamame (Shelled)', amount: 1, unit: 'cups', department: 'Produce' },
+      { name: 'Avocado (Sliced)', amount: 1, unit: 'pcs', department: 'Produce' },
+      { name: 'Pickled Ginger', amount: 2, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Sesame Seeds', amount: 1, unit: 'tsp', department: 'Pantry' }
+    ],
+    instructions: [
+      'Whisk soy sauce, mirin, and honey for teriyaki glaze.',
+      'Cook jasmine rice. Blanch edamame in boiling water 3 minutes; drain.',
+      'Pan-fry salmon skin-side down 4 minutes, flip, brush generously with teriyaki glaze, cook 3 more minutes.',
+      'Assemble bowls: rice, glazed salmon, avocado, edamame, and pickled ginger.',
+      'Drizzle any remaining glaze and finish with sesame seeds.'
+    ]
+  },
+  {
+    id: 'rec-29',
+    title: 'Korean Kimchi Fried Rice (Kimchi Bokkeumbap)',
+    description:
+      'Bold, deeply savory fried rice with well-fermented kimchi, crispy pork belly bits, gochugaru, and a perfectly fried sunny-side-up egg on top.',
+    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=80',
+    prepTime: 10,
+    cookTime: 12,
+    servings: 2,
+    category: 'Asian Fusion',
+    subcategory: 'Korean',
+    tags: ['Meat', 'Korean', 'Quick', 'Comfort Food', 'Spicy'],
+    difficulty: 'Easy',
+    calories: 540,
+    rating: 4.8,
+    macros: { protein: 28, carbs: 58, fat: 22 },
+    videoUrl: 'https://www.youtube.com/watch?v=5EaNCMnhvHc',
+    ingredients: [
+      { name: 'Day-Old Cooked Rice', amount: 3, unit: 'cups', department: 'Pantry' },
+      { name: 'Kimchi (Well-Fermented)', amount: 1, unit: 'cups', department: 'Produce' },
+      { name: 'Pork Belly (Diced Small)', amount: 150, unit: 'g', department: 'Meat' },
+      { name: 'Gochugaru (Korean Chili Flakes)', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Soy Sauce', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Sesame Oil', amount: 1, unit: 'tsp', department: 'Pantry' },
+      { name: 'Eggs', amount: 2, unit: 'pcs', department: 'Dairy' },
+      { name: 'Green Onions (Sliced)', amount: 3, unit: 'stalks', department: 'Produce' },
+      { name: 'Nori (Crumbled)', amount: 1, unit: 'sheet', department: 'Pantry' }
+    ],
+    instructions: [
+      'Render pork belly in a wok over medium-high heat until crispy. Remove and set aside.',
+      'Add kimchi to the same wok and stir-fry 3 minutes until slightly caramelized.',
+      'Add rice, breaking up clumps. Stir-fry everything 3 minutes on high heat.',
+      'Season with soy sauce and gochugaru. Toss in pork belly bits and drizzle sesame oil.',
+      'Fry eggs sunny-side up separately. Serve rice topped with a fried egg, green onions, and crumbled nori.'
+    ]
+  },
+  {
     id: 'rec-19',
     title: 'Cantonese Crispy Pork Belly (Siu Yuk)',
     description:

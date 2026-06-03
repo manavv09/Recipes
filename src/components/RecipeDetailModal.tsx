@@ -38,13 +38,11 @@ export function RecipeDetailModal({
 }: RecipeDetailModalProps) {
   const [servings, setServings] = useState(recipe.servings);
   const [checkedIngredients, setCheckedIngredients] = useState<Record<string, boolean>>({});
-  const [showVideo, setShowVideo] = useState(() => hasRecipeVideo(recipe.videoUrl));
   const [userRating, setUserRating] = useState(recipe.rating || 5);
 
   useEffect(() => {
     setServings(recipe.servings);
     setCheckedIngredients({});
-    setShowVideo(hasRecipeVideo(recipe.videoUrl));
     setUserRating(recipe.rating || 5);
   }, [recipe]);
 

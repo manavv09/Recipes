@@ -2,13 +2,15 @@ import { useState, useMemo } from 'react';
 import type { Recipe } from '@/types';
 import { RecipeCard } from './RecipeCard';
 import { CategoryFilter } from './CategoryFilter';
+import { SpoonacularSearch } from './SpoonacularSearch';
 import { RECIPE_CATEGORIES } from '@/data/categories';
 import { hasRecipeVideo } from '@/utils/youtube';
-import { Search, SlidersHorizontal, EyeOff, Plus, Heart, Film, Sparkles } from 'lucide-react';
+import { Search, SlidersHorizontal, EyeOff, Plus, Heart, Film, Sparkles, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Select,
   SelectContent,
@@ -28,6 +30,7 @@ interface RecipeExplorerProps {
   favorites: string[];
   onToggleFavorite: (recipeId: string) => void;
   onOpenCreateModal: () => void;
+  onImportRecipe: (recipe: Recipe) => void;
 }
 
 type SortOption = 'default' | 'time-low' | 'calories-low' | 'calories-high' | 'rating-high';
@@ -40,7 +43,8 @@ export function RecipeExplorer({
   onAddToPlan,
   favorites,
   onToggleFavorite,
-  onOpenCreateModal
+  onOpenCreateModal,
+  onImportRecipe
 }: RecipeExplorerProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -182,133 +186,154 @@ export function RecipeExplorer({
         </CardHeader>
       </Card>
 
-      <CategoryFilter
-        selectedCategory={selectedCategory}
-        selectedSubcategory={selectedSubcategory}
-        onSelectCategory={setSelectedCategory}
-        onSelectSubcategory={setSelectedSubcategory}
-        recipeCounts={recipeCounts}
-        subcategoryCounts={subcategoryCounts}
-      />
+      <Tabs defaultValue="library" id="recipe-explorer-tabs">
+        <TabsList className="mb-4">
+          <TabsTrigger value="library" id="tab-library">
+            <Sparkles className="size-3.5 mr-1.5" />
+            Library
+          </TabsTrigger>
+          <TabsTrigger value="search-web" id="tab-search-web">
+            <Globe className="size-3.5 mr-1.5" />
+            Search Web
+          </TabsTrigger>
+        </TabsList>
 
-      <div className="flex flex-col gap-3 md:flex-row">
-        <div className="relative flex-1">
-          <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
-          <Input
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search recipes, regions, ingredients..."
-            className="pl-9"
+        {/* ── LIBRARY TAB ── */}
+        <TabsContent value="library" className="space-y-6">
+          <CategoryFilter
+            selectedCategory={selectedCategory}
+            selectedSubcategory={selectedSubcategory}
+            onSelectCategory={setSelectedCategory}
+            onSelectSubcategory={setSelectedSubcategory}
+            recipeCounts={recipeCounts}
+            subcategoryCounts={subcategoryCounts}
           />
-        </div>
 
-        <div className="flex flex-wrap gap-2">
-          <Toggle
-            pressed={showFavoritesOnly}
-            onPressedChange={setShowFavoritesOnly}
-            variant="outline"
-            className="gap-1.5 data-[state=on]:border-rose-500/50 data-[state=on]:bg-rose-500/10 data-[state=on]:text-rose-400"
-          >
-            <Heart className={showFavoritesOnly ? 'fill-rose-500 text-rose-500 size-4' : 'size-4'} />
-            Favorites
-          </Toggle>
-          <Toggle
-            pressed={videosOnly}
-            onPressedChange={setVideosOnly}
-            variant="outline"
-            className="gap-1.5"
-          >
-            <Film className="size-4" />
-            Has video
-          </Toggle>
-          <Button
-            variant={showFilters || selectedTags.length > 0 ? 'secondary' : 'outline'}
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            <SlidersHorizontal className="size-4" />
-            Tags {selectedTags.length > 0 && `(${selectedTags.length})`}
-          </Button>
-          <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortOption)}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Sort" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="default">Default</SelectItem>
-              <SelectItem value="time-low">Shortest cook time</SelectItem>
-              <SelectItem value="calories-low">Calories: low → high</SelectItem>
-              <SelectItem value="calories-high">Calories: high → low</SelectItem>
-              <SelectItem value="rating-high">Highest rated</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
-      {showFilters && (
-        <Card>
-          <CardContent className="pt-6">
-            <p className="text-muted-foreground mb-3 text-xs font-medium uppercase tracking-wider">
-              Filter by tag
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {allTags.map((tag) => {
-                const selected = selectedTags.includes(tag);
-                return (
-                  <Button
-                    key={tag}
-                    size="sm"
-                    variant={selected ? 'default' : 'outline'}
-                    onClick={() =>
-                      setSelectedTags((prev) =>
-                        prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-                      )
-                    }
-                  >
-                    {tag}
-                  </Button>
-                );
-              })}
+          <div className="flex flex-col gap-3 md:flex-row">
+            <div className="relative flex-1">
+              <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+              <Input
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search recipes, regions, ingredients..."
+                className="pl-9"
+              />
             </div>
-          </CardContent>
-        </Card>
-      )}
 
-      <p className="text-muted-foreground text-sm">
-        Showing <span className="text-foreground font-medium">{filteredRecipes.length}</span> of{' '}
-        {recipes.length}
-        {selectedSubcategory && (
-          <span className="text-primary ml-1">· {selectedSubcategory}</span>
-        )}
-      </p>
+            <div className="flex flex-wrap gap-2">
+              <Toggle
+                pressed={showFavoritesOnly}
+                onPressedChange={setShowFavoritesOnly}
+                variant="outline"
+                className="gap-1.5 data-[state=on]:border-rose-500/50 data-[state=on]:bg-rose-500/10 data-[state=on]:text-rose-400"
+              >
+                <Heart className={showFavoritesOnly ? 'fill-rose-500 text-rose-500 size-4' : 'size-4'} />
+                Favorites
+              </Toggle>
+              <Toggle
+                pressed={videosOnly}
+                onPressedChange={setVideosOnly}
+                variant="outline"
+                className="gap-1.5"
+              >
+                <Film className="size-4" />
+                Has video
+              </Toggle>
+              <Button
+                variant={showFilters || selectedTags.length > 0 ? 'secondary' : 'outline'}
+                onClick={() => setShowFilters(!showFilters)}
+              >
+                <SlidersHorizontal className="size-4" />
+                Tags {selectedTags.length > 0 && `(${selectedTags.length})`}
+              </Button>
+              <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortOption)}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Sort" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="default">Default</SelectItem>
+                  <SelectItem value="time-low">Shortest cook time</SelectItem>
+                  <SelectItem value="calories-low">Calories: low → high</SelectItem>
+                  <SelectItem value="calories-high">Calories: high → low</SelectItem>
+                  <SelectItem value="rating-high">Highest rated</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
 
-      {filteredRecipes.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredRecipes.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              onViewDetails={onViewDetails}
-              onAddToPlan={onAddToPlan}
-              isFavorite={favorites.includes(recipe.id)}
-              onToggleFavorite={onToggleFavorite}
-            />
-          ))}
-        </div>
-      ) : (
-        <Card className="border-dashed">
-          <CardContent className="flex flex-col items-center py-16 text-center">
-            <EyeOff className="text-muted-foreground mb-4 size-12" />
-            <CardTitle className="text-base">No recipes found</CardTitle>
-            <CardDescription className="mt-2 max-w-sm">
-              {dietPreference !== 'all'
-                ? `No ${dietPreference === 'veg' ? 'vegetarian' : dietPreference === 'vegan' ? 'vegan' : 'non-vegetarian'} recipes match these filters. Try another category or switch diet in the sidebar.`
-                : 'Try a different category or reset your filters.'}
-            </CardDescription>
-            <Button variant="outline" className="mt-6" onClick={resetFilters}>
-              Reset filters
-            </Button>
-          </CardContent>
-        </Card>
-      )}
+          {showFilters && (
+            <Card>
+              <CardContent className="pt-6">
+                <p className="text-muted-foreground mb-3 text-xs font-medium uppercase tracking-wider">
+                  Filter by tag
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {allTags.map((tag) => {
+                    const selected = selectedTags.includes(tag);
+                    return (
+                      <Button
+                        key={tag}
+                        size="sm"
+                        variant={selected ? 'default' : 'outline'}
+                        onClick={() =>
+                          setSelectedTags((prev) =>
+                            prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+                          )
+                        }
+                      >
+                        {tag}
+                      </Button>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          <p className="text-muted-foreground text-sm">
+            Showing <span className="text-foreground font-medium">{filteredRecipes.length}</span> of{' '}
+            {recipes.length}
+            {selectedSubcategory && (
+              <span className="text-primary ml-1">· {selectedSubcategory}</span>
+            )}
+          </p>
+
+          {filteredRecipes.length > 0 ? (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {filteredRecipes.map((recipe) => (
+                <RecipeCard
+                  key={recipe.id}
+                  recipe={recipe}
+                  onViewDetails={onViewDetails}
+                  onAddToPlan={onAddToPlan}
+                  isFavorite={favorites.includes(recipe.id)}
+                  onToggleFavorite={onToggleFavorite}
+                />
+              ))}
+            </div>
+          ) : (
+            <Card className="border-dashed">
+              <CardContent className="flex flex-col items-center py-16 text-center">
+                <EyeOff className="text-muted-foreground mb-4 size-12" />
+                <CardTitle className="text-base">No recipes found</CardTitle>
+                <CardDescription className="mt-2 max-w-sm">
+                  {dietPreference !== 'all'
+                    ? `No ${dietPreference === 'veg' ? 'vegetarian' : dietPreference === 'vegan' ? 'vegan' : 'non-vegetarian'} recipes match these filters. Try another category or switch diet in the sidebar.`
+                    : 'Try a different category or reset your filters.'}
+                </CardDescription>
+                <Button variant="outline" className="mt-6" onClick={resetFilters}>
+                  Reset filters
+                </Button>
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        {/* ── SEARCH WEB TAB ── */}
+        <TabsContent value="search-web">
+          <SpoonacularSearch onImport={onImportRecipe} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

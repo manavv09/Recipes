@@ -22,6 +22,8 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { DietToggle } from '@/components/DietToggle';
 import { filterRecipesByDiet, type DietPreference } from '@/utils/diet';
+import { useAuth } from '@/hooks/useAuth';
+import { useCloudSync } from '@/hooks/useCloudSync';
 
 interface AssignMealState {
   open: boolean;
@@ -39,6 +41,10 @@ const createEmptyMealPlan = (): WeeklyMealPlan => {
 };
 
 export default function App() {
+  // 0. CLOUD SYNC & AUTH
+  const { user, syncStatus } = useAuth();
+  const { saveToCloud } = useCloudSync(user);
+
   // 1. NAVIGATION & LAYOUT STATES
   const [activeTab, setActiveTab] = useState<'dashboard' | 'recipes' | 'planner' | 'gym' | 'shopping'>(() => {
     const saved = localStorage.getItem('recipeforge_tab');
@@ -173,10 +179,10 @@ export default function App() {
   });
   const [createRecipeOpen, setCreateRecipeOpen] = useState(false);
 
-  // 8. SYNCHRONIZE AND PERSIST TO LOCAL STORAGE
+  // 8. SYNCHRONIZE AND PERSIST TO LOCAL STORAGE / CLOUD
   useEffect(() => {
-    localStorage.setItem('recipeforge_tab', activeTab);
-  }, [activeTab]);
+    saveToCloud('recipeforge_tab', activeTab);
+  }, [activeTab, saveToCloud]);
 
   useEffect(() => {
     localStorage.setItem('recipeforge_theme', theme);
@@ -184,32 +190,32 @@ export default function App() {
   }, [theme]);
 
   useEffect(() => {
-    localStorage.setItem('recipeforge_diet', dietPreference);
-  }, [dietPreference]);
+    saveToCloud('recipeforge_diet', dietPreference);
+  }, [dietPreference, saveToCloud]);
 
   useEffect(() => {
-    localStorage.setItem('recipeforge_customrecipes', JSON.stringify(customRecipes));
-  }, [customRecipes]);
+    saveToCloud('recipeforge_customrecipes', customRecipes);
+  }, [customRecipes, saveToCloud]);
 
   useEffect(() => {
-    localStorage.setItem('recipeforge_favorites', JSON.stringify(favorites));
-  }, [favorites]);
+    saveToCloud('recipeforge_favorites', favorites);
+  }, [favorites, saveToCloud]);
 
   useEffect(() => {
-    localStorage.setItem('recipeforge_gymgoal', JSON.stringify(gymGoal));
-  }, [gymGoal]);
+    saveToCloud('recipeforge_gymgoal', gymGoal);
+  }, [gymGoal, saveToCloud]);
 
   useEffect(() => {
-    localStorage.setItem('recipeforge_mealplan', JSON.stringify(mealPlan));
-  }, [mealPlan]);
+    saveToCloud('recipeforge_mealplan', mealPlan);
+  }, [mealPlan, saveToCloud]);
 
   useEffect(() => {
-    localStorage.setItem('recipeforge_customshopping', JSON.stringify(customShoppingItems));
-  }, [customShoppingItems]);
+    saveToCloud('recipeforge_customshopping', customShoppingItems);
+  }, [customShoppingItems, saveToCloud]);
 
   useEffect(() => {
-    localStorage.setItem('recipeforge_checkeditems', JSON.stringify(checkedItems));
-  }, [checkedItems]);
+    saveToCloud('recipeforge_checkeditems', checkedItems);
+  }, [checkedItems, saveToCloud]);
 
   // 9. COMPILED SHOPPING LIST (Recipe Aggregation + Custom Items)
   const shoppingList = useMemo(() => {
@@ -357,6 +363,7 @@ export default function App() {
         setDietPreference={setDietPreference}
         isOpen={mobileMenuOpen}
         setIsOpen={setMobileMenuOpen}
+        syncStatus={syncStatus}
       />
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -409,6 +416,7 @@ export default function App() {
               }
               onToggleFavorite={handleToggleFavorite}
               onOpenCreateModal={() => setCreateRecipeOpen(true)}
+              onImportRecipe={handleSaveCustomRecipe}
             />
           )}
 
