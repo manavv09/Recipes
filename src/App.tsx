@@ -24,6 +24,7 @@ import { DietToggle } from '@/components/DietToggle';
 import { filterRecipesByDiet, type DietPreference } from '@/utils/diet';
 import { useAuth } from '@/hooks/useAuth';
 import { useCloudSync } from '@/hooks/useCloudSync';
+import { LoginPage } from './components/LoginPage';
 
 interface AssignMealState {
   open: boolean;
@@ -42,8 +43,25 @@ const createEmptyMealPlan = (): WeeklyMealPlan => {
 
 export default function App() {
   // 0. CLOUD SYNC & AUTH
-  const { user, syncStatus } = useAuth();
+  const { user, syncStatus, signInWithGoogle, signOut } = useAuth();
   const { saveToCloud } = useCloudSync(user);
+
+  const [hasEnteredGuest, setHasEnteredGuest] = useState<boolean>(() => {
+    return localStorage.getItem('recipeforge_guest_entered') === '1';
+  });
+
+  const handleContinueAsGuest = () => {
+    localStorage.setItem('recipeforge_guest_entered', '1');
+    setHasEnteredGuest(true);
+  };
+
+  const handleSignOut = async () => {
+    localStorage.removeItem('recipeforge_guest_entered');
+    setHasEnteredGuest(false);
+    await signOut();
+  };
+
+  const showLogin = !user || (user.isAnonymous && !hasEnteredGuest);
 
   // 1. NAVIGATION & LAYOUT STATES
   const [activeTab, setActiveTab] = useState<'dashboard' | 'recipes' | 'planner' | 'gym' | 'shopping'>(() => {
@@ -349,6 +367,16 @@ export default function App() {
     setCheckedItems({});
   };
 
+  if (showLogin) {
+    return (
+      <LoginPage
+        signInWithGoogle={signInWithGoogle}
+        onContinueAsGuest={handleContinueAsGuest}
+        isLoading={syncStatus === 'connecting'}
+      />
+    );
+  }
+
   return (
     <div className="bg-background flex min-h-screen">
       <Sidebar
@@ -364,6 +392,9 @@ export default function App() {
         isOpen={mobileMenuOpen}
         setIsOpen={setMobileMenuOpen}
         syncStatus={syncStatus}
+        user={user}
+        signInWithGoogle={signInWithGoogle}
+        signOut={handleSignOut}
       />
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -385,6 +416,18 @@ export default function App() {
             <Badge variant="secondary" className="capitalize">
               {activeTab}
             </Badge>
+            <a
+              href="https://github.com/manavv09/Recipes"
+              target="_blank"
+              rel="noreferrer"
+              className="flex size-8 items-center justify-center rounded-lg border border-border bg-secondary/35 text-muted-foreground hover:bg-secondary/80 hover:text-foreground transition-all"
+              title="View GitHub"
+            >
+              <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                <path d="M9 18c-4.51 2-5-2-7-2" />
+              </svg>
+            </a>
           </div>
         </header>
 
