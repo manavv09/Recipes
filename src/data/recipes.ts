@@ -1,5 +1,6 @@
 import type { Recipe } from '../types';
 import { indianStateRecipes } from './indianRecipes';
+import { newRecipes } from './newRecipes';
 
 const baseRecipes: Recipe[] = [
   {
@@ -1029,10 +1030,152 @@ const baseRecipes: Recipe[] = [
       'Form a foil box around pork, exposing only the skin. Cover the skin with a thick layer of coarse salt.',
       'Roast at 400°F (200°C) for 50 minutes. Remove salt crust, and roast at 450°F (230°C) for 20-30 minutes until skin is completely blistered and crispy.'
     ]
+  },
+  {
+    id: 'rec-30',
+    title: 'Paneer Tikka Masala',
+    description:
+      'Grilled spiced paneer cubes simmered in a rich, creamy, and aromatic tomato onion gravy with kasuri methi.',
+    image: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=800&q=80',
+    prepTime: 15,
+    cookTime: 20,
+    servings: 4,
+    category: 'Indian Cuisine',
+    subcategory: 'Punjab',
+    tags: ['Indian', 'Authentic', 'Vegetarian', 'High-Protein', 'Comfort Food'],
+    difficulty: 'Medium',
+    calories: 430,
+    rating: 4.8,
+    macros: { protein: 26, carbs: 18, fat: 28 },
+    videoUrl: 'https://www.youtube.com/watch?v=M2WESV27Lkw',
+    ingredients: [
+      { name: 'Paneer (Cottage Cheese)', amount: 400, unit: 'g', department: 'Dairy' },
+      { name: 'Greek Yogurt', amount: 0.5, unit: 'cups', department: 'Dairy' },
+      { name: 'Tikka Masala Spices', amount: 2, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Canned Crushed Tomatoes', amount: 1, unit: 'can', department: 'Pantry' },
+      { name: 'Heavy Cream', amount: 0.5, unit: 'cups', department: 'Dairy' },
+      { name: 'Butter', amount: 2, unit: 'tbsp', department: 'Dairy' },
+      { name: 'Ginger-Garlic Paste', amount: 1.5, unit: 'tbsp', department: 'Produce' },
+      { name: 'Onion (Finely Chopped)', amount: 1, unit: 'large', department: 'Produce' },
+      { name: 'Bell Pepper (Diced)', amount: 1, unit: 'pcs', department: 'Produce' }
+    ],
+    instructions: [
+      'Marinate paneer and bell pepper cubes in yogurt, ginger-garlic paste, tikka seasoning, and salt for 20 minutes.',
+      'Sauté marinated paneer and peppers in a hot pan until charred. Set aside.',
+      'In the same pan, melt butter and sauté chopped onions until golden. Stir in tomatoes and spices; simmer 10 minutes.',
+      'Stir in heavy cream, add grilled paneer and peppers, and let simmer for 3 minutes.',
+      'Garnish with fresh coriander and serve with naan or basmati rice.'
+    ]
+  },
+  {
+    id: 'rec-31',
+    title: 'Crispy Baked Falafel Bowls',
+    description:
+      'Baked herb-packed chickpea falafel served over quinoa with cucumber-tomato salad and a creamy garlic tahini dressing.',
+    image: 'https://images.unsplash.com/photo-1547058886-af77813be9a5?auto=format&fit=crop&w=800&q=80',
+    prepTime: 15,
+    cookTime: 25,
+    servings: 3,
+    category: 'Mediterranean',
+    subcategory: 'Levantine',
+    tags: ['Vegetarian', 'Vegan', 'Healthy', 'Gluten-Free', 'High-Protein'],
+    difficulty: 'Medium',
+    calories: 380,
+    rating: 4.6,
+    macros: { protein: 18, carbs: 46, fat: 14 },
+    videoUrl: 'https://www.youtube.com/watch?v=11S1VnO7-Kk',
+    ingredients: [
+      { name: 'Canned Chickpeas (Drained & Dried)', amount: 2, unit: 'cans', department: 'Pantry' },
+      { name: 'Fresh Parsley & Cilantro', amount: 1, unit: 'cups', department: 'Produce' },
+      { name: 'Garlic Cloves', amount: 4, unit: 'pcs', department: 'Produce' },
+      { name: 'Ground Cumin & Coriander', amount: 1.5, unit: 'tsp', department: 'Pantry' },
+      { name: 'Quinoa (Dry)', amount: 1, unit: 'cups', department: 'Pantry' },
+      { name: 'Cucumber (Diced)', amount: 1, unit: 'pcs', department: 'Produce' },
+      { name: 'Cherry Tomatoes', amount: 1, unit: 'cups', department: 'Produce' },
+      { name: 'Tahini Paste', amount: 3, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Lemon Juice', amount: 2, unit: 'tbsp', department: 'Produce' }
+    ],
+    instructions: [
+      'Blend chickpeas, parsley, cilantro, garlic, cumin, coriander, salt, and pepper in a food processor until coarsely ground.',
+      'Shape into small patties and spray with olive oil. Bake at 400°F (200°C) for 20-25 minutes, flipping halfway, until golden and crispy.',
+      'Cook quinoa according to package instructions.',
+      'Whisk tahini, lemon juice, minced garlic, and warm water together for the dressing.',
+      'Assemble bowls with quinoa, falafel, diced cucumber, tomatoes, and drizzle with tahini dressing.'
+    ]
+  },
+  {
+    id: 'rec-32',
+    title: 'High-Protein Tempeh Stir-Fry',
+    description:
+      'Crispy pan-fried tempeh strips and mixed garden vegetables tossed in a savory ginger-garlic-soy glaze.',
+    image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=800&q=80',
+    prepTime: 10,
+    cookTime: 15,
+    servings: 2,
+    category: 'Gym Diet',
+    subcategory: 'High Protein',
+    tags: ['Vegan', 'Vegetarian', 'High-Protein', 'Healthy', 'Gym Diet', 'Quick'],
+    difficulty: 'Easy',
+    calories: 340,
+    rating: 4.5,
+    macros: { protein: 32, carbs: 22, fat: 12 },
+    videoUrl: 'https://www.youtube.com/watch?v=F_fKekm6XSw',
+    ingredients: [
+      { name: 'Organic Tempeh', amount: 300, unit: 'g', department: 'Produce' },
+      { name: 'Broccoli Florets', amount: 2, unit: 'cups', department: 'Produce' },
+      { name: 'Bell Pepper (Sliced)', amount: 1, unit: 'pcs', department: 'Produce' },
+      { name: 'Sugar Snap Peas', amount: 1, unit: 'cups', department: 'Produce' },
+      { name: 'Soy Sauce (Low Sodium)', amount: 3, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Maple Syrup or Agave', amount: 1, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Ginger (Fresh, Grated)', amount: 1.5, unit: 'tsp', department: 'Produce' },
+      { name: 'Garlic (Minced)', amount: 3, unit: 'pcs', department: 'Produce' },
+      { name: 'Sesame Oil', amount: 1, unit: 'tbsp', department: 'Pantry' }
+    ],
+    instructions: [
+      'Slice tempeh into thin strips. Pan-fry in sesame oil over medium-high heat for 6-8 minutes until crisp and golden.',
+      'Remove tempeh. In the same pan, add broccoli, bell pepper, and snap peas with a splash of water, cooking 4 minutes until crisp-tender.',
+      'Whisk soy sauce, maple syrup, ginger, and garlic in a small bowl.',
+      'Return tempeh to the pan, pour sauce over, and stir-fry on high heat for 2 minutes until glaze thickens and coats the stir-fry.',
+      'Serve hot over brown rice or cauliflower rice.'
+    ]
+  },
+  {
+    id: 'rec-33',
+    title: "Vegetarian Lentil Shepherd's Pie",
+    description:
+      'Rich brown lentils, peas, and carrots simmered in a savory herb gravy, topped with buttery mashed sweet potatoes.',
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    prepTime: 20,
+    cookTime: 30,
+    servings: 4,
+    category: 'French Cuisine',
+    subcategory: 'Classic',
+    tags: ['Vegetarian', 'Comfort Food', 'Healthy', 'Gluten-Free'],
+    difficulty: 'Medium',
+    calories: 390,
+    rating: 4.7,
+    macros: { protein: 16, carbs: 54, fat: 11 },
+    videoUrl: 'https://www.youtube.com/watch?v=cI7f7t71Q6s',
+    ingredients: [
+      { name: 'Brown Lentils (Dry)', amount: 1, unit: 'cups', department: 'Pantry' },
+      { name: 'Sweet Potatoes', amount: 3, unit: 'large', department: 'Produce' },
+      { name: 'Vegetable Broth', amount: 2.5, unit: 'cups', department: 'Pantry' },
+      { name: 'Carrots & Peas (Mixed)', amount: 1.5, unit: 'cups', department: 'Produce' },
+      { name: 'Onion (Diced)', amount: 1, unit: 'large', department: 'Produce' },
+      { name: 'Tomato Paste', amount: 2, unit: 'tbsp', department: 'Pantry' },
+      { name: 'Butter or Vegan Butter', amount: 2, unit: 'tbsp', department: 'Dairy' },
+      { name: 'Fresh Rosemary & Thyme', amount: 2, unit: 'tsp', department: 'Produce' }
+    ],
+    instructions: [
+      'Boil sweet potatoes until soft, mash with butter, milk or water, salt, and pepper.',
+      'Sauté onions, carrots, and peas until soft. Add dry lentils, broth, tomato paste, and herbs. Simmer 25 minutes until lentils are tender and gravy is thick.',
+      'Pour lentil mixture into a baking dish, top with mashed sweet potatoes, and smooth with a fork.',
+      'Bake at 400°F (200°C) for 15-20 minutes until top is golden and filling is bubbling.'
+    ]
   }
 ];
 
 /**
- * Full catalog: base recipes + one authentic dish per Indian state/UT.
+ * Full catalog: base recipes + one authentic dish per Indian state/UT + user added recipes.
  */
-export const mockRecipes: Recipe[] = [...baseRecipes, ...indianStateRecipes];
+export const mockRecipes: Recipe[] = [...baseRecipes, ...indianStateRecipes, ...newRecipes];
