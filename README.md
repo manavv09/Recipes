@@ -1,4 +1,4 @@
-# 🍳 RecipeForge
+# 🍳 RecipeForge🍛
 
 > A premium, high-performance **Gym Diet & Meal Planner** built with React 19, TypeScript, and Tailwind CSS v4 — designed for fitness enthusiasts who demand precision nutrition, seamless cloud synchronization, and elegant UI styling.
 
